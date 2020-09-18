@@ -1,0 +1,65 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{% block css %}
+        <link rel="stylesheet" href="{% static 'shop/aboutUs.css' %}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock %}
+
+
+{% block html_elements %}
+
+
+<div class= "banner-sektion banner-overlay" style="background: linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.7)),url({% static 'paint1.jpg' %});background-repeat: no-repeat;background-size: cover;background-position: center center;color: #fff;padding-bottom:300px;">
+    <div class="container text-left">
+        <div class="col-md-6 col-xs-12">
+            <div class="banner-heading ">
+                <h2>
+                    {% if selected_lang == 'geo' %}
+                    <a href="" class="typewrite" lang="geo" data-period="2000" data-type='[ "ჩვენ შესახებ", "#Frames atelier" ]'>
+                        {% elif selected_lang == 'eng' %}
+                        <a href="" class="typewrite" lang="geo" data-period="2000" data-type='[ "About us", "#Frames atelier" ]'>
+                            {% elif selected_lang == 'rus' %}
+                            <a href="" class="typewrite" lang="geo" data-period="2000" data-type='[ "Насчет нас", "#Frames atelier" ]'>
+                                {% else %}
+                                <a href="" class="typewrite" lang="geo" data-period="2000" data-type='[ "ჩვენ შესახებ", "#Frames atelier" ]'>
+                                    {% endif %}
+                        <span class="wrap"></span></a></h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<div class="aboutus-section" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="aboutus">
+                    <h2 class="aboutus-title" lang="geo">ჩვენ შესახებ</h2>
+                    <p class="aboutus-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
+{% block js %}
+    <script src="{% static 'shop/aboutUs.js' %}"></script>
+{#    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>#}
+{% endblock %}
+
+

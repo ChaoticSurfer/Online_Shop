@@ -1,0 +1,318 @@
+html {
+    height: 100%;
+}
+body {
+    min-height:100%;
+    position:relative;
+    padding-bottom: 80px;
+}
+
+h4 {
+    margin-left: 7.5%;
+    font-family: Verdana;
+    color: #0a3251;
+}
+
+
+.folium-map {
+    /*margin-left: 15%;*/
+    margin-left: 7.5%;
+    margin-top: 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+/*@media screen and (max-width:1400px) {*/
+/*    .folium-map {*/
+/*        width: 70%;*/
+/*        !*margin-left: 25px;*!*/
+/*    }*/
+/*}*/
+
+#map_d37c008199df4958b78c297bc914f594 {
+            position: relative;
+            width: 100.0%;
+            height: 100.0%;
+            left: 0.0%;
+            top: 0.0%;
+        }
+
+
+.table-responsive {
+    width: 85%;
+    margin-left: 7.5%;
+    font-size: 14px;
+    padding-bottom: 15%;
+    margin-bottom: 30px;
+}
+.td:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+#sticky-footer {
+    position: absolute;
+    left: 0 ; right: 0; bottom: 0;
+    height: 180px;
+    color: rgba(255,255,255,.5);
+}
+
+/*scrollbar*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/*end of scrollbar*/
+
+
+.mail {
+    display: inline-block;
+    margin-left: 79%;
+    font-family: Verdana;
+    color: rgba(255,255,255,.5);
+}
+.mail a{
+    font-size: 14px;
+    color: rgba(255,255,255,.5);
+}
+.mail a:hover{
+    color: #28a745;
+    text-decoration-color: transparent;
+}
+@media screen and (max-width: 1650px) {
+    .mail {
+        margin-left: 75%;
+    }
+}
+@media screen and (max-width: 1450px) {
+    .mail {
+        margin-left: 75%;
+    }
+}
+@media screen and (max-width: 1350px) {
+    .mail {
+        margin-left: 75%;
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .mail {
+        margin-left: 7.5%;
+    }
+}
+
+
+/*scroll up*/
+.scroll-top-wrapper {
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    text-align: center;
+    z-index: 99999999;
+    background-color: #28a745;
+    color: #eeeeee;
+    width: 50px;
+    height: 48px;
+    line-height: 48px;
+    left: 30px;
+    bottom: 30px;
+    padding-top: 2px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.scroll-top-wrapper:hover {
+    background-color: #28a745;
+}
+.scroll-top-wrapper.show {
+    visibility:visible;
+    cursor:pointer;
+    opacity: 1.0;
+}
+.scroll-top-wrapper i.fa {
+    line-height: inherit;
+}
+/*end of scroll up*/
+
+
+
+/*navbar elements*/
+
+.badge:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+.nav-item .nav-link:hover {
+    color: #28a745!important;
+}
+.native {
+    align-items: center;
+    display: flex;
+}
+@media screen and (max-width: 3000px) {
+    .justify-content-end {
+        padding-left: 730px;
+        margin-right: -730px;
+    }
+}
+@media screen and (max-width: 2900px) {
+    .justify-content-end {
+        padding-left: 700px;
+        margin-right: -700px;
+    }
+}
+@media screen and (max-width: 2850px) {
+    .justify-content-end {
+        padding-left: 650px;
+        margin-right: -650px;
+    }
+}
+@media screen and (max-width: 2700px) {
+    .justify-content-end {
+        padding-left: 580px;
+        margin-right: -580px;
+    }
+}
+@media screen and (max-width: 2500px) {
+    .justify-content-end {
+        padding-left: 560px;
+        margin-right: -560px;
+    }
+}
+@media screen and (max-width: 2400px) {
+    .justify-content-end {
+        padding-left: 520px;
+        margin-right: -520px;
+    }
+}
+@media screen and (max-width: 2300px) {
+    .justify-content-end {
+        padding-left: 490px;
+        margin-right: -490px;
+    }
+}
+@media screen and (max-width: 2200px) {
+    .justify-content-end {
+        padding-left: 460px;
+        margin-right: -460px;
+    }
+}
+@media screen and (max-width: 2100px) {
+    .justify-content-end {
+        padding-left: 420px;
+        margin-right: -420px;
+    }
+}
+@media screen and (max-width: 2000px) {
+    .justify-content-end {
+        padding-left: 390px;
+        margin-right: -390px;
+    }
+}
+@media screen and (max-width: 1900px) {
+    .justify-content-end {
+        padding-left: 360px;
+        margin-right: -360px;
+    }
+}
+@media screen and (max-width: 1850px) {
+    .justify-content-end {
+        padding-left: 330px;
+        margin-right: -330px;
+    }
+}
+@media screen and (max-width: 1750px) {
+    .justify-content-end {
+        padding-left: 285px;
+        margin-right: -285px;
+    }
+}
+@media screen and (max-width: 1590px) {
+    .justify-content-end {
+        padding-left: 230px;
+        margin-right: -230px;
+    }
+}
+@media screen and (max-width: 1440px) {
+    .justify-content-end {
+        padding-left: 180px;
+        margin-right: -180px;
+    }
+}
+@media screen and (max-width: 1300px) {
+    .justify-content-end {
+        padding-left: 150px;
+        margin-right: -150px;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .justify-content-end {
+        padding-left: 100px;
+        margin-right: -100px;
+    }
+}
+@media screen and (max-width: 1020px) {
+    .justify-content-end {
+        padding-left: 80px;
+        margin-right: -80px;
+    }
+}
+@media screen and (max-width: 992px) {
+    .justify-content-end {
+        padding-left: 0;
+        margin-right: 0;
+    }
+}
+/*end of navbar elements*/
+
+
+.hoverdropdown1:hover>.dropdown-menu {
+    display: block;
+    top: 100%;
+}
+
+
+.hoverdropdown2:hover>.dropdown-menu {
+    display: block;
+    top: 100%;
+}
+
+.dropdown-menu {
+    min-width: 3rem;
+}
+
+/*end of hover Dropdown*/
+
+.form-control:focus {
+    box-shadow: 0px 0px 0px 0px #ffffff !important;
+    border-color: #4ca746
+}

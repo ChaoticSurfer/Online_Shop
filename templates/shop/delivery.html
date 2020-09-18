@@ -1,0 +1,188 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="{% static 'shop/delivery.css' %}">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    {% endblock %}
+
+
+{% block html_elements %}
+{#<form action="">#}
+<form name="myareaform" id ="myareaform" method="post">{% csrf_token %}
+<div class="container">
+
+  <div class="py-5 text-center">
+    <h4 lang="geo">მიწოდება</h4>
+  </div>
+
+
+      <h4 class="mb-3" lang="geo">მიწოდების პირობები</h4>
+
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+          <label class="custom-control-label green" for="customRadio1" lang="geo">მიტანა ადგილზე</label>
+          <hr class="mb-4">
+          <div class="reveal-if-active" data-require-pair="#customRadio1">
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label for="region" lang="geo">მუნიციპალიტეტი</label>
+{#                  <form name="myareaform" id ="myareaform" method="post">{% csrf_token %}#}
+                <select name="selected_area" class="custom-select d-block w-100 form-control" id="region" onchange="selectArea(this);">
+                  <option value="" disabled selected lang="geo">აირჩიე...</option>
+                  <option value="აბაშა" lang="geo">აბაშა</option>
+                  <option value="ადიგენი" lang="geo">ადიგენი</option>
+                  <option value="ამბროლაური" lang="geo">ამბროლაური</option>
+                  <option value="ასპინძა" lang="geo">ასპინძა</option>
+                  <option value="ახალქალაქი" lang="geo">ახალქალაქი</option>
+                  <option value="ახალციხე" lang="geo">ახალციხე</option>
+                  <option value="ახმეტა" lang="geo">ახმეტა</option>
+                  <option value="ბათუმი" lang="geo">ბათუმი</option>
+                  <option value="ბაღდათი" lang="geo">ბაღდათი</option>
+                  <option value="ბოლნისი" lang="geo">ბოლნისი</option>
+                  <option value="ბორჯომი" lang="geo">ბორჯომი</option>
+                  <option value="გარდაბანი" lang="geo">გარდაბანი</option>
+                  <option value="გორი" lang="geo">გორი</option>
+                  <option value="გურჯაანი" lang="geo">გურჯაანი</option>
+                  <option value="დედოფლისწყარო" lang="geo">დედოფლისწყარო</option>
+                  <option value="დმანისი" lang="geo">დმანისი</option>
+                  <option value="დუშეთი" lang="geo">დუშეთი</option>
+                  <option value="ვალე" lang="geo">ვალე</option>
+                  <option value="ვანი" lang="geo">ვანი</option>
+                  <option value="ზესტაფონი" lang="geo">ზესტაფონი</option>
+                  <option value="ზუგდიდი" lang="geo">ზუგდიდი</option>
+                  <option value="თბილისი" lang="geo">თბილისი</option>
+                  <option value="თეთრი წყარო" lang="geo">თეთრი წყარო</option>
+                  <option value="თელავი" lang="geo">თელავი</option>
+                  <option value="თერჯოლა" lang="geo">თერჯოლა</option>
+                  <option value="თიანეთი" lang="geo">თიანეთი</option>
+                  <option value="კასპი" lang="geo">კასპი</option>
+                  <option value="ლაგოდეხი" lang="geo">ლაგოდეხი</option>
+                  <option value="ლანჩხუთი" lang="geo">ლანჩხუთი</option>
+                  <option value="ლენტეხი" lang="geo">ლენტეხი</option>
+                  <option value="მარნეული" lang="geo">მარნეული</option>
+                  <option value="მარტვილი" lang="geo">მარტვილი</option>
+                  <option value="მესტია" lang="geo">მესტია</option>
+                  <option value="მცხეთა" lang="geo">მცხეთა</option>
+                  <option value="ნინოწმინდა" lang="geo">ნინოწმინდა</option>
+                  <option value="ოზურგეთი" lang="geo">ოზურგეთი</option>
+                  <option value="ონი" lang="geo">ონი</option>
+                  <option value="რუსთავი" lang="geo">რუსთავი</option>
+                  <option value="საგარეჯო" lang="geo">საგარეჯო</option>
+                  <option value="სამტრედია" lang="geo">სამტრედია</option>
+                  <option value="საჩხერე" lang="geo">საჩხერე</option>
+                  <option value="სენაკი" lang="geo">სენაკი</option>
+                  <option value="სიღნაღი" lang="geo">სიღნაღი</option>
+                  <option value="სტეფანწმინდა" lang="geo">სტეფანწმინდა</option>
+                  <option value="ტყიბული" lang="geo">ტყიბული</option>
+                  <option value="ფოთი" lang="geo">ფოთი</option>
+                  <option value="ქარელი" lang="geo">ქარელი</option>
+                  <option value="ქედა" lang="geo">ქედა</option>
+                  <option value="ქობულეთი" lang="geo">ქობულეთი</option>
+                  <option value="ქუთაისი" lang="geo">ქუთაისი</option>
+                  <option value="ყვარელი" lang="geo">ყვარელი</option>
+                  <option value="შუახევი" lang="geo">შუახევი</option>
+                  <option value="ჩოხატაური" lang="geo">ჩოხატაური</option>
+                  <option value="ჩხოროწყუ" lang="geo">ჩხოროწყუ</option>
+                  <option value="ცაგერი" lang="geo">ცაგერი</option>
+                  <option value="წალენჯიხა" lang="geo">წალენჯიხა</option>
+                  <option value="წალკა" lang="geo">წალკა</option>
+                  <option value="წნორი" lang="geo">წნორი</option>
+                  <option value="წყალტუბო" lang="geo">წყალტუბო</option>
+                  <option value="ჭიათურა" lang="geo">ჭიათურა</option>
+                  <option value="ხარაგაული" lang="geo">ხარაგაული</option>
+                  <option value="ხაშური" lang="geo">ხაშური</option>
+                  <option value="ხელვაჩაური" lang="geo">ხელვაჩაური</option>
+                  <option value="ხობი" lang="geo">ხობი</option>
+                  <option value="ხონი" lang="geo">ხონი</option>
+                  <option value="ხულო" lang="geo">ხულო</option>
+                  <option value="ჯვარი" lang="geo">ჯვარი</option>
+                </select>
+{#                  </form>#}
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="address" lang="geo">მისამართი</label>
+              <input name="exact_area" type="text" class="form-control" id="address">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+          <label class="custom-control-label green" for="customRadio2" lang="geo">გატანა ფილიალიდან</label>
+
+
+
+          <hr class="mb-4">
+        <div class="reveal-if-active" data-require-pair="#customRadio2">
+          <div class="row">
+            <div class="col-md-5 mb-3">
+              <label for="branch" lang="geo">ფილიალი</label>
+              <select name="selected_area"  class="custom-select d-block w-100 form-control" id="branch" onchange="selectArea(this);">
+                <option value="" disabled selected lang="geo">აირჩიე...</option>
+                <option value="აბაშიძის ფილიალი" lang="geo">აბაშიძის ფილიალი</option>
+                <option value="გახოკიძის ფილიალი" lang="geo">გახოკიძის ფილიალი</option>
+                <option value="კოსტავას ფილიალი" lang="geo">კოსტავას ფილიალი</option>
+                <option value="რუსთაველის ფილიალი" lang="geo">რუსთაველის ფილიალი</option>
+                <option value="ჯორჯაძის ფილიალი" lang="geo">ჯორჯაძის ფილიალი</option>
+              </select>
+            </div>
+          </div>
+        </div>
+    </div>
+{#    {{ selected_area }}#}
+    <div class="form-row">
+  <div class="col-md-5 mb-3">
+    <div class="form-group"> <label for="cc-number" class="control-label" lang="geo">ტელეფონის ნომერი</label> <input id="cc-number" name="phone_number" type="number" class="input-lg form-control cc-number"  lang="geo" autocomplete="cc-number" placeholder="ტელ:" value="{{ request.user.phone_number }}" required> </div>
+  </div>
+   <div class="col-md-7 mb-3">
+{#    <div class="form-group"> <label for="cc-number" class="control-label" lang="geo">ტელეფონის ნომერი</label> <input id="cc-number" type="number" class="input-lg form-control cc-number"  lang="geo" autocomplete="cc-number" placeholder="ტელ:" value="{{ request.user.phone_number }}" required> </div>#}
+       <div class="form-group tax"><label for="cc-number" class="control-label" lang="geo"></label><div ><h4 class="tax-text" lang="geo">მიტანის თანხა: </h4><h4>{{ tax|floatformat:2 }} ₾</h4></div></div>
+   </div>
+    </div>
+
+
+
+
+
+
+  </div>
+    <br>
+    <div class="form-group button"> <input value="გამოთვლა" lang="geo" type="submit" class="btn btn-outline-danger btn-lg form-control" style="font-size: .8rem;"> </div>
+<br>
+</form>
+<div class="form-group button"> <input value="გაგრძელება" lang="geo" type="submit" onclick="window.location.href='{% url 'Checkout' %}'" class="btn btn-outline-success btn-lg form-control" style="font-size: .8rem;"> </div>
+
+{#    </form>#}
+{#</form>#}
+</div>
+{#</form>#}
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+{% endblock %}
+
+
+{% block js %}
+<script>
+function selectArea() {
+    {#window.location.reload();#}
+    {#document.myareaform.submit();#}
+}
+
+</script>
+
+{% endblock %}

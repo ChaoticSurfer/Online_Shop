@@ -1,0 +1,472 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+
+{% block css_link_1_for_productView_html %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+{% endblock %}
+
+
+{% block magic_zoom_plus_plugin %}
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/magiczoomplus.css' %}"/>
+    <script type="text/javascript" src="{% static 'shop/magiczoomplus.js' %}"></script>
+{% endblock %}
+
+
+{% block css %}
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'shop/productview.css' %}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock %}
+
+
+{% block html_elements %}
+
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ShopHome' %}" lang="geo">მთავარი</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'Products' %}" lang="geo">პროდუქცია</a></li>
+                    {% if selected_lang == 'geo' %}
+                    <li class="breadcrumb-item active" aria-current="page" lang="geo">{{ product.product_name_geo }}</li>
+                    {% elif selected_lang == 'eng' %}
+                        <li class="breadcrumb-item active" aria-current="page" lang="geo">{{ product.product_name_eng }}</li>
+                    {% elif selected_lang == 'rus' %}
+                        <li class="breadcrumb-item active" aria-current="page" lang="geo">{{ product.product_name_rus }}</li>
+                    {% else %}
+                        <li class="breadcrumb-item active" aria-current="page" lang="geo">{{ product.product_name_geo }}</li>
+                    {% endif %}
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+    <div class="container" id="container">
+    <div class="row">
+        <!-- Image -->
+        <div id="main-img" class="col-12 col-lg-6">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <a href="/media/{{ product.image_high_quality }}" class="MagicZoom" data-toggle="modal" data-target="#productModal">
+                        <img class="img-fluid" id="img-fluid" src="/media/{{ product.image_high_quality }}">
+<!--                        <p class="text-center">Zoom</p>-->
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add to cart -->
+        <div class="col-12 col-lg-6 add_to_cart_block">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                {% if selected_lang == 'geo' %}
+                    <h1 class="name" lang="geo">{{ product.product_name_geo }}</h1>
+                {% elif selected_lang == 'eng' %}
+                    <h1 class="name" lang="geo">{{ product.product_name_eng }}</h1>
+                {% elif selected_lang == 'rus' %}
+                    <h1 class="name" lang="geo">{{ product.product_name_rus }}</h1>
+                {% else %}
+                    <h1 class="name" lang="geo">{{ product.product_name_geo }}</h1>
+                {% endif %}
+
+
+                    <form method="get" action="cart.html">
+                        <div class="price">{{ product.price|floatformat:2 }} ₾</div>
+{#                    {% with var=product.price|add:product.price %}#}
+{#                        {{ var }}#}
+{#                    {% endwith %}#}
+{##}
+{#                        {% widthratio product.price|floatformat:2 1 3.5 as multiply %}#}
+{#                             {{ multiply }}#}
+
+<!--                        <div class="form-group">-->
+<!--                            <label for="colors">ფერი :</label>-->
+<!--                            <select class="custom-select" id="colors">-->
+<!--                                <option selected disabled>აირჩიეთ ფერი</option>-->
+<!--                                <option value="1"><a href="#" data-toggle="modal" data-target="#productModal">ლურჯი</a></option>-->
+<!--                                <option value="2"><a href="#" data-toggle="modal" data-target="#productModal">წითელი</a></option>-->
+<!--                                <option value="3"><a href="#" data-toggle="modal" data-target="#productModal">მწვანე</a></option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+                        {% for i in a %}
+{#                            {% if product.id == i.id and i.sub_verbose_name == 'Canvas_rectangle_frame' and i.thickness != None and i.pack == 'ერთი' %}#}
+{#                                    <div class="form-group">#}
+{#                                        <label for="Frame_Thickness">ქვეჩარჩოს მასალის სისქე,სიგანე :</label>#}
+{#                                        <select class="custom-select" id="Frame_Thickness" onchange="location = this.value;">#}
+{#                                            <option selected disabled>აირჩიეთ სისქე,სიგანე</option>#}
+{#                                                {% for i in a %}#}
+{#                                                    {% if product.product_name_geo == i.product_name_geo and i.sub_verbose_name == 'Canvas_rectangle_frame' and i.thickness != None and i.pack == 'ერთი' %}#}
+{#                                                        <option value="/shop/productView/{{ i.id }}">{{ i.thickness }}</option>#}
+{#                                                    {% endif %}#}
+{#                                                {% endfor %}#}
+{#                                        </select>#}
+{#                                        <label style="font-size: 14px">მიმდინარედ არჩეული: {{ i.thickness }}</label>#}
+{#                                        <br>#}
+{#                                        <label style="font-size: 14px">ქვეჩარჩოს სიგრძე,სიგანე: </label>#}
+{#                                        <div class="row" style="padding-left: 15px">#}
+{#                                            <label for="example-number-input1" style="font-size: 14px">სიგრძე:</label>#}
+{#                                            <input class="form-control col-5" type="number" min="0" id="example-number-input1">#}
+{#                                            <label for="example-number-input1" style="font-size: 14px">მეტრი</label>#}
+{#                                        </div>#}
+{#                                        <br>#}
+{#                                        <div class="row" style="padding-left: 15px">#}
+{#                                            <label for="example-number-input2" style="font-size: 14px">სიგანე:</label>#}
+{#                                            <input class="form-control col-5" type="number" min="0" id="example-number-input2">#}
+{#                                            <label for="example-number-input2" style="font-size: 14px">მეტრი</label>#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                            {% if product.id == i.id and i.sub_verbose_name == 'Canvas_rectangle_frame' and i.thickness != None and i.pack == 'კოლექცია' or product.id == i.id and i.sub_verbose_name == 'Canvas_circular_frame' and i.pack == 'კოლექცია' %}
+                                    <div class="form-group">
+                                        {% if i.sub_verbose_name == 'Canvas_rectangle_frame' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოს მასალის სისქე,სიგანე: </label><label style="font-size: 14px" lang="geo">{{ i.thickness }}</label></label>
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოს სიგრძე,სიგანე: </label><label style="font-size: 14px" lang="geo">{{ i.amount_volume }}</label></label>
+                                        {% elif i.sub_verbose_name == 'Canvas_circular_frame' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოს რადიუსი: </label><label style="font-size: 14px" lang="geo">{{ i.amount_volume }}</label></label>
+                                        {% endif %}
+                                    </div>
+{#                            {% elif product.id == i.id and i.sub_verbose_name == 'Canvas_with_rectangle_frame' and i.thickness != None and i.pack == 'ერთი' %}#}
+{#                                        <div class="form-group">#}
+{#                                            <label for="Frame_With_Canvas_Thickness" style="font-size: 14px">სისქე,სიგანე/ტილო/გადაკვრა:</label>#}
+{#                                            <select style="font-size: 12px" class="custom-select" id="Frame_With_Canvas_Thickness" onchange="location = this.value;">#}
+{#                                                <option style="font-size: 12px" selected disabled>აირჩიეთ სისქე,სიგანე/ტილო/გადაკვრა</option>#}
+{#                                                    {% for i in a %}#}
+{#                                                        {% if product.product_name_geo == i.product_name_geo and i.sub_verbose_name == 'Canvas_with_rectangle_frame' and i.thickness != None and i.overlay_geo != None and i.overlay_eng != None and i.overlay_rus != None and i.pack == 'ერთი'%}#}
+{#                                                            <option style="font-size: 12px" value="/shop/productView/{{ i.id }}">{{ i.thickness }}/{{ i.canvas_type }}/{{ i.overlay_geo }}</option>#}
+{#                                                        {% endif %}#}
+{#                                                    {% endfor %}#}
+{#                                            </select>#}
+{#                                            <label style="font-size: 14px">მიმდინარედ არჩეული: {{ i.thickness }}/{{ i.canvas_type }}/{{ i.overlay_geo }}</label>#}
+{#                                            <br>#}
+{#                                            <label style="font-size: 14px">ქვეჩარჩოს სიგრძე,სიგანე: </label>#}
+{#                                            <div class="row" style="padding-left: 15px">#}
+{#                                                <label for="example-number-input4" style="font-size: 14px">სიგრძე:</label>#}
+{#                                                <input class="form-control col-5" type="number" min="0" id="example-number-input4">#}
+{#                                                <label for="example-number-input4" style="font-size: 14px">მეტრი</label>#}
+{#                                            </div>#}
+{#                                            <br>#}
+{#                                            <div class="row" style="padding-left: 15px">#}
+{#                                                <label for="example-number-input5" style="font-size: 14px">სიგანე:</label>#}
+{#                                                <input class="form-control col-5" type="number" min="0" id="example-number-input5">#}
+{#                                                <label for="example-number-input5" style="font-size: 14px">მეტრი</label>#}
+{#                                            </div>#}
+{#                                        </div>#}
+                            {% elif product.id == i.id and i.sub_verbose_name == 'Canvas_with_rectangle_frame' and i.thickness != None and i.overlay_geo != None and i.overlay_eng != None and i.overlay_rus != None and i.pack == 'კოლექცია' or product.id == i.id and i.sub_verbose_name == 'Canvas_with_circular_frame' and i.overlay_geo != None and i.overlay_eng != None and i.overlay_rus != None and i.pack == 'კოლექცია' %}
+                                    <div class="form-group">
+                                        {% if i.sub_verbose_name == 'Canvas_with_rectangle_frame' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოს მასალის სისქე,სიგანე: </label><label style="font-size: 14px" lang="geo">{{ i.thickness }}</label></label>
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოზე გადაკრული ტილო: </label><label style="font-size: 14px" lang="geo">{{ i.canvas_type }}</label></label>
+                                            {% if selected_lang == 'geo' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_geo }}</label></label>
+                                                {% elif selected_lang == 'eng' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_eng }}</label></label>
+                                                {% elif selected_lang == 'rus' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_rus }}</label></label>
+                                                {% else %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_geo }}</label></label>
+                                                {% endif %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოს სიგრძე,სიგანე: </label><label style="font-size: 14px" lang="geo">{{ i.amount_volume }}</label></label>
+                                        {% elif i.sub_verbose_name == 'Canvas_with_circular_frame' %}
+                                        <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოზე გადაკრული ტილო: </label><label style="font-size: 14px" lang="geo">{{ i.canvas_type }}</label></label>
+                                        {% if selected_lang == 'geo' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_geo }}</label></label>
+                                                {% elif selected_lang == 'eng' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_eng }}</label></label>
+                                                {% elif selected_lang == 'rus' %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_rus }}</label></label>
+                                                {% else %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს გადაკვრა: </label><label style="font-size: 14px" lang="geo">{{ i.overlay_geo }}</label></label>
+                                                {% endif %}
+                                        <label><label style="font-size: 14px; float: left" lang="geo">ქვეჩარჩოს რადიუსი: </label><label style="font-size: 14px" lang="geo">{{ i.amount_volume }}</label></label>
+                                        {% endif %}
+                                    </div>
+{#                            {% elif product.id == i.id and i.sub_verbose_name == 'Tree_drawing_board' and i.pack == 'ერთი' %}#}
+{#                                    <div class="form-group">#}
+{#                                         <label style="font-size: 14px">დაფის სიგრძე,სიგანე: </label>#}
+{#                                            <div class="row" style="padding-left: 15px">#}
+{#                                                <label for="example-number-input6" style="font-size: 14px">სიგრძე:</label>#}
+{#                                                <input class="form-control col-5" type="number" min="0" id="example-number-input6">#}
+{#                                                <label for="example-number-input6" style="font-size: 14px">მეტრი</label>#}
+{#                                            </div>#}
+{#                                            <br>#}
+{#                                            <div class="row" style="padding-left: 15px">#}
+{#                                                <label for="example-number-input7" style="font-size: 14px">სიგანე:</label>#}
+{#                                                <input class="form-control col-5" type="number" min="0" id="example-number-input7">#}
+{#                                                <label for="example-number-input7" style="font-size: 14px">მეტრი</label>#}
+{#                                            </div>#}
+{#                                    </div>#}
+                            {% elif product.id == i.id and i.sub_verbose_name == 'Tree_drawing_board' and i.pack == 'კოლექცია' and i.amount_volume != None %}
+                                    <div class="form-group">
+                                        <label><label style="font-size: 14px; float: left" lang="geo">დაფის სიგრძე,სიგანე: </label><label style="font-size: 14px" lang="geo">{{ i.amount_volume }}</label></label>
+                                    </div>
+{#                            {% elif product.id == i.id and i.sub_verbose_name == 'Drawing_canvas' and i.pack == 'ერთი' %}#}
+{#                                    <div class="form-group">#}
+{#                                        {% if product.id == i.id and i.sub_verbose_name == 'Drawing_canvas' and i.pack == 'ერთი' and i.drawing_canvas_type != None %}#}
+{#                                        <label style="font-size: 14px">ტილოს ტიპი: {{ i.drawing_canvas_type }}</label>#}
+{#                                        {% endif %}#}
+{#                                        <label style="font-size: 14px">ტილოს სიგრძე: {{ i.height }}</label>#}
+{#                                        <br>#}
+{#                                        <label style="font-size: 14px">ტილოს სიგანე: </label>#}
+{#                                        <div class="row" style="padding-left: 15px">#}
+{#                                            <label for="example-number-input8" style="font-size: 14px">სიგანე:</label>#}
+{#                                            <input class="form-control col-5" type="number" min="0" id="example-number-input8">#}
+{#                                            <label for="example-number-input8" style="font-size: 14px">მეტრი</label>#}
+{#                                        </div>#}
+{#                                    </div>#}
+                            {% elif product.id == i.id and i.sub_verbose_name == 'Water_color_sheet' and i.pack == 'კოლექცია' and i.size != None %}
+                                    <div class="form-group">
+{#                                        <label><label style="font-size: 14px; float: left;" lang="geo">ფერი: </label><label style="font-size: 14px;" lang="geo">{{ i.color }}</label></label>#}
+                                        <label><label style="font-size: 14px; float: left;" lang="geo">ზომა: </label><label style="font-size: 14px;" lang="geo">{{ i.size }}</label></label>
+                                    </div>
+                            {% elif product.id == i.id and i.sub_verbose_name == 'Water_color_sheet' and i.pack == 'კოლექცია' and i.size == None %}
+                                    <div class="form-group">
+{#                                        <label><label style="font-size: 14px; float: left;" lang="geo">ფერი: </label><label style="font-size: 14px;" lang="geo">{{ i.color }}</label></label>#}
+                                    </div>
+                            {% elif product.id == i.id and i.sub_verbose_name == 'Canvas_with_carton' and i.pack == 'კოლექცია' %}
+                                    <div class="form-group">
+                                        <label><label style="font-size: 14px; float: left" lang="geo">ზომა: </label><label style="font-size: 14px" lang="geo">{{ i.size }}</label></label>
+                                        {% if product.id == i.id and i.sub_verbose_name == 'Canvas_with_carton' and i.pack == 'კოლექცია' and i.drawing_canvas_type != None %}
+                                            <label><label style="font-size: 14px; float: left" lang="geo">ტილოს ტიპი: </label><label style="font-size: 14px" lang="geo">{{ i.drawing_canvas_type }}</label></label>
+                                        {% endif %}
+                                    </div>
+                            {% else %}
+
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="reviews_product p-3 mb-2 ">
+
+
+                            <div class="row" id="row">
+
+                                    {% for i in a %}
+                                        {% if i.verbose_name == 'Paint' or i.verbose_name == 'Pastel' or i.verbose_name == 'Pencil' %}
+                                            {% if product.product_name_geo == i.product_name_geo and i.color != None and i.pack == 'ერთი' %}
+                                    <div class="thumb col-2 col-sm-1 col-md-1 col-lg-1 col-xl-1" >
+                                            <a href="/productView/{{ i.id }}"><img src="/media/{{ i.image_high_quality }}" style="height: 40px; width: 34px">
+    <!--                                        <a href="#" class="hover" >სრულად-->
+                                            </a>
+                                    </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                            </div>
+                        </div>
+
+                            {% for i in a %}
+                                {% if product.id == i.id and i.color != None %}
+                                    <label><label style="float: left" lang="geo">ფერი: </label><label lang="geo">{{ i.color }}</label></label>
+                                {% endif %}
+                            {% endfor %}
+
+
+                            {% for i in a %}
+                                {% if product.id == i.id and i.amount_in_warehouse != None %}
+                                    <label><label style="float: left" lang="geo">რაოდენობა საწყობში: </label><label lang="geo">{{ i.amount_in_warehouse }}</label></label>
+                                {% endif %}
+                            {% endfor %}
+{#                    {% if product.location_geo != None %}#}
+{#                        <p class="address">ადგილმდებარეობა: {{ product.location_geo }}</p>#}
+{#                    {% endif %}#}
+{#                    {% if product.amount_in_warehouse != None %}#}
+{#                        <div class="form-group">#}
+{#                            <label>რაოდენობა :#}
+{#                                <span class="input-number-decrement">–</span><input class="input-number" type="text" value="1" min="0" max="{{ product.amount_in_warehouse }}"><span class="input-number-increment">+</span>#}
+{#                            </label>#}
+{#                        </div>#}
+{#                     {% else %}#}
+{##}
+{#                    {% endif %}#}
+
+                        <a href="{% url 'cart_add' product.id %}" class="btn btn-success btn-lg btn-block text-uppercase" id="add-to-cart">
+                            <i class="fa fa-shopping-cart" lang="geo"> კალათაში დამატება</i>
+                        </a>
+                    </form>
+                    <div class="product_rassurance">
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><i class="fa fa-truck fa-2x"></i><br/><p lang="geo">სწრაფი მიტანა</p></li>
+                            <li class="list-inline-item"><i class="fa fa-credit-card fa-2x"></i><br/><p lang="geo">უსაფრთხო გადახდა</p></li>
+                            <li class="list-inline-item"><i class="fa fa-phone fa-2x"></i><br/><a class="phone-number" href = "tel: +995 32 2 14 24 23">+995 (32) 2 14 24 23</a></li>
+                        </ul>
+                        <br>
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><img src="{% static 'visa.png' %}" width="48px" height="48px"></li>
+                            <li class="list-inline-item"><img src="{% static 'mastercard.png' %}" width="48px" height="48px"></li>
+{#                            <li class="list-inline-item"><img src="{% static 'american-express.png' %}" width="48px" height="48px"></li>#}
+                        </ul>
+                    </div>
+                    <div class="reviews_product p-3 mb-2 ">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Description -->
+        <div class="col-12">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-dark text-white text-uppercase details"><i class="fa fa-align-justify" lang="geo"> აღწერა და სხვა მახასიათებლები</i></div>
+                <div class="card-body">
+                    <table class="card-text">
+                        <tr>
+                            {% for i in a %}
+                                {% if product.id == i.id and i.amount_volume != None and i.verbose_name != 'Drawing_boards' and i.verbose_name != 'Pastel' and i.verbose_name != 'Pencil' and i.sub_verbose_name != 'Accessories_Molbert' and i.sub_verbose_name != 'Accessories_Mastehin' and i.verbose_name != 'Frame_Paspartu' %}
+                            <td class="card-text sub-card-text" lang="geo">ზომა, მოცულობა:</td>
+                            <td class="flex-item">
+                                    {{ i.amount_volume }}
+                            </td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% if product.brand != None %}
+                            <td class="card-text sub-card-text" lang="geo">ბრენდი:</td>
+                            <td class="flex-item">{{ product.brand }}</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <br>
+                    <p class="desc" lang="geo">
+                        {% if selected_lang == 'geo' %}
+                        {{ product.description_geo }}
+                        {% elif selected_lang == 'eng' %}
+                        {{ product.description_eng }}
+                        {% elif selected_lang == 'rus' %}
+                        {{ product.description_rus }}
+                        {% else %}
+                        {{ product.description_geo }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br>
+    <br>
+    <br>
+
+
+
+<!--&lt;!&ndash; Modal image &ndash;&gt;-->
+<!--<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-lg" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="productModalLabel">Product title</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">×</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <img class="img-fluid" id="img-fluid1" src="https://dummyimage.com/1200x1200/55595c/fff" />-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+{% endblock %}
+
+
+
+{% block js %}
+
+    <!--<script type="text/javascript">-->
+
+    <!--    //Use the id of the form instead of #change-->
+    <!--    $('#colors').change(function(){-->
+    <!--        //this is just getting the value that is selected-->
+    <!--        var title = $(this).val();-->
+    <!--        var image = $(this).val();-->
+    <!--        $('.modal-title').html(title);-->
+    <!--        $('.img-fluid').html(image);-->
+    <!--        $('.modal').modal('show');-->
+    <!--    });-->
+
+    <!--</script>-->
+
+
+
+    <script type="text/javascript">
+    jQuery(document).ready(function($){
+
+    var $overlay = $('<div id="overlay"></div>')
+    var $image = $('<img>');
+
+    $overlay.append($image);
+
+    $('body').append($overlay);
+
+
+    //Hover and show in big image
+    $('.thumb img').hover(function(){
+            var $src = $(this).attr('src');
+            $('#main-img img').attr('src', $src);
+        },
+        $('.row').hover(function(){
+                var $src = '/media/{{ product.image_high_quality }}';
+                $('#main-img img').attr('src', $src);
+            },
+
+
+            )
+        )
+
+    });
+    </script>
+
+
+
+
+
+
+    
+
+    <script src="{% static 'shop/productview.js' %}"></script>
+{#    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>#}
+{% endblock %}
+
+
+
+
+{#{% block otherjs %}#}
+{#<script>#}
+{#console.log('working');#}
+{#if(localStorage.getItem('cart') == null){#}
+{#var cart = {};}#}
+{#else {#}
+{#cart = JSON.parse(localStorage.getItem('cart'));#}
+{#var sum = 0;#}
+{#for (var item in cart) {#}
+{#    sum = sum + cart[item];}#}
+{#localStorage.setItem('cart', JSON.stringify(cart));#}
+{#document.getElementById('cart').innerHTML = sum;}#}
+{#$('.cart').click(function(){#}
+{#console.log('clicked');#}
+{#var idstr = this.id.toString();#}
+{#console.log(idstr);#}
+{#if (cart[idstr] !== undefined){#}
+{#cart[idstr] = cart[idstr] + 1;}#}
+{#else {#}
+{#cart[idstr] = 1;}#}
+{#updateCart(cart)});#}
+{##}
+{##}
+{#</script>#}
+{#{% endblock %}#}
+
+

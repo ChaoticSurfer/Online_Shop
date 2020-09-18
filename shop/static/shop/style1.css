@@ -1,0 +1,194 @@
+.list {
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+    .list--img {
+
+    }
+    .list--item {
+        width: 25%;
+        float: left;
+        padding: 10px;
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: flex;
+    }
+    .list--item figure {
+        background: #fff;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+    .list--item img {
+        display: block;
+        width: 100%;
+    }
+    .list--item figcaption {
+        padding: 6px 12px 12px;
+        font-size: 12px;
+        color: #444;
+    }
+    .list--item header, .list--item figcaption {
+        padding-left: 25%;
+    }
+    .list--item header {
+        margin-top: 12px;
+    }
+    .list--item h2 {
+        font-size: 15px;
+        padding: 0 0 0;
+        margin: 0;
+    }
+
+    @media screen and (min-width: 1200px) {
+        .container {
+            width: 90%;
+        }
+
+        .list--item {
+            width: 20%;
+        }
+        .list--img {
+            min-width: 200px;
+            min-height: 240px;
+            max-width: 200px;
+            max-height: 240px;
+        }
+    }
+    @media screen and (max-width: 1199px) {
+        .list--img {
+            min-width: 200px;
+            min-height: 240px;
+            max-width: 200px;
+            max-height: 240px;
+        }
+
+    }
+    @media screen and (max-width: 992px) {
+        .list--img {
+            min-width: 160px;
+            min-height: 192px;
+            max-width: 160px;
+            max-height: 192px;
+        }
+
+    }
+    @media screen and (max-width: 768px) {
+        .list--item {
+            width: 33%;
+        }
+    }
+    @media screen and (max-width: 620px) {
+        .list--item {
+            width: 50%;
+        }
+        .list--img {
+            min-width: 230px;
+            min-height: 276px;
+            max-width: 230px;
+            max-height: 276px;
+        }
+    }
+    @media screen and (max-width: 575px) {
+        .list--img {
+            min-width: 230px;
+            min-height: 276px;
+            max-width: 230px;
+            max-height: 276px;
+        }
+    }
+    @media screen and (max-width: 520px) {
+        .list--img {
+            min-width: 210px;
+            min-height: 252px;
+            max-width: 210px;
+            max-height: 252px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .list--item {
+            width: 100%;
+            margin-left: 22%;
+            margin-right: 18%;
+        }
+        .list--img {
+            min-width: 250px;
+            min-height: 300px;
+            max-width: 250px;
+            max-height: 300px;
+        }
+    }
+    @media screen and (max-width: 450px) {
+        .list--item {
+            width: 100%;
+            margin-left: 18%;
+            margin-right: 13%;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        .list--item {
+            width: 100%;
+            margin-left: 13%;
+            margin-right: 10%;
+        }
+    }
+    @media screen and (max-width: 380px) {
+        .list--item {
+            width: 100%;
+            margin-left: 9%;
+            margin-right: 5%;
+        }
+    }
+    @media screen and (max-width: 355px) {
+        .list--item {
+            width: 100%;
+            margin-left: 7%;
+            margin-right: 0%;
+        }
+    }
+    @media screen and (max-width: 340px) {
+        .list--item {
+            width: 100%;
+            margin-left: 4%;
+            margin-right: 0%;
+        }
+    }
+    @media screen and (max-width: 320px) {
+        .list--item {
+            width: 100%;
+            margin-left: 2%;
+            margin-right: 0%;
+        }
+    }
+    @media screen and (max-width: 300px) {
+    .list--item {
+        width: 100%;
+        margin-left: 0%;
+        margin-right: 0%;
+    }
+    .list--img {
+            min-width: 235px;
+            min-height: 282px;
+            max-width: 235px;
+            max-height: 282px;
+        }
+    }
+    @media screen and (max-width: 280px) {
+        .list--img {
+            min-width: 225px;
+            min-height: 270px;
+            max-width: 225px;
+            max-height: 270px;
+        }
+    }
+    @media screen and (max-width: 270px) {
+    .list--img {
+        min-width: 215px;
+        min-height: 258px;
+        max-width: 215px;
+        max-height: 258px;
+    }
+}

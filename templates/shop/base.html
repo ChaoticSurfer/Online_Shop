@@ -1,0 +1,650 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% block css_link_1_for_productView_html_and_js_link_for_map %}
+
+{% endblock %}
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+{#<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
+
+{% block magic_zoom_plus_plugin %}
+
+{% endblock %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <title lang="geo">ჩარჩოების ატელიე - სამხატვრო აქსესუარები</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'frames atelier favicon.png' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'shop/loader.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'shop/jquery-sls.js' %}"></script>
+    <script>
+        (function($, document) {
+	var sls={
+		/**
+		* Default options, can be overriden at init()
+		*/
+		defaultOptions:{
+			// Default language code"
+			defaultLang: "geo",
+			// Current/initial language code
+			lang: "geo",
+			// Language json files path
+			path: "{% static 'shop/languages/' %}",
+			// Selected language will be persistent across page loads
+			persistent: true,
+			// Cleaner sanitization for better matching (remove excessive spaces between words)
+			clean: true,
+			// Custom attributes to be translated
+			attributes: [],
+			// Element to be observed with it's descendants to detect changes by MutationObserver.
+			// By default, the whole document is observed and you don't have to change this, unless you have performance issues (e.g.: observe: "#dynamic")
+			// Use null to disable observer. (e.g.: observe: null)
+			observe: document
+		},
+
+		/**
+		* Other internal-use objects
+		*/
+		settings: {},
+		translations: {},
+		storage: false,
+		attr: ["title", "alt", "href", "placeholder", "src", "data-content", "data-type"],
+		observer: false,
+		observerConfig: { attributes: true, childList: true, characterData: true, subtree: true },
+		queue: [],
+		executing: false,
+		inevent: false,
+		htmlO: null,
+		textO: null,
+
+		/**
+		* init()
+		*
+		* Init.
+		*
+		* @param object options : Options to override
+		*/
+		init: function(options) {
+			// Override default options
+			this.settings = $.extend(this.defaultOptions, options);
+			this.attr=$.uniqueSort($.merge(this.attr, this.settings.attributes).sort());
+			// Get persistent storage support
+			if (typeof(Storage)!=="undefined") {
+				// Test if localStorage is actually available. i.e: Safari prevents it in private browsing
+				try {
+					sessionStorage.setItem("jquery-sls-test-local-storage", "test");
+					sessionStorage.removeItem("jquery-sls-test-local-storage");
+					this.storage=true;
+				} catch (error) {}
+			}
+			// Load current language code from persistent storage
+			if (this.settings.persistent && this.loadLang()){
+				this.setLang(this.settings.lang);
+			}
+
+			// *** Hook jQuery.html() Method: ***
+
+			// Save old jQuery DOM manipulation functions before overriding
+			this.htmlO=$.fn.html;
+			// Override jQuery.html() method
+			// To prevent recursion, do not use .html() method in the code, prefer using $.sls.htmlO.call($(object), value )
+			$.fn.html = function() {
+				if (arguments[0]!==null){
+					arguments[0] = $.sls.t( arguments[0] );
+				}
+				return $.sls.htmlO.apply(this, arguments);
+			}
+			// *** Hook jQuery.text() Method: ***
+
+			// Save old jQuery DOM manipulation functions before overriding
+			this.textO=$.fn.text;
+			// Override jQuery.text() method
+			// To prevent recursion, do not use .text() method in the code, prefer using $.sls.textO.call($(object), value )
+			$.fn.text = function() {
+				if (arguments[0]!==null){
+					arguments[0] = $.sls.t( arguments[0] );
+				}
+				return $.sls.textO.apply(this, arguments);
+			}
+
+
+			// *** MutationObserver Method: ***
+
+			// MutationObserver to detect changes in DOM (i.e.: dynamic content loaded by ajax)
+			// TODO: conflicts may occur with _kvp()
+			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+			if (typeof(MutationObserver)!=="undefined") {
+				this.observer=new MutationObserver(function(mutations) {
+					$.sls.queue.push(function(){
+						$.sls.observer.disconnect();
+						if (mutations[0].type=="childList"){
+							$(mutations[0].target).sls();
+						}
+						$.sls.observer.observe($($.sls.settings.observe)[0], $.sls.observerConfig);
+					});
+					_exec();
+				});
+				if (typeof($($.sls.settings.observe)[0])!=="undefined") {
+					this.observer.observe($($.sls.settings.observe)[0], $.sls.observerConfig);
+				}else{
+					_log("Element not found, MutationObserver disabled.");
+				}
+			}else{
+				// MutationObserver not supported, fallback to Mutation events.
+				// Alternatively, MutationObserver polyfills or the manual $("").sls() function on ajax success callback
+				// can be used for old browsers. e.g.: if (!$.sls.observer) $('#dynamic').sls();
+				_log("MutationObserver is not supported on this browser, falling back to Mutation events.");
+				$(document).on("DOMNodeInserted", function(event){
+					$.sls.queue.push(function(){
+						$(event.target).sls();
+					});
+					_exec();
+				});
+			}
+		},
+
+		/**
+		* loadLang()
+		*
+		* Load current language code from persistent storage.
+		*
+		*/
+		loadLang: function() {
+			if (this.storage){
+				var lang=sessionStorage.getItem("jquery-sls-lang");
+			}else{
+				var lang=document.cookie.replace(/(?:(?:^|.*;\s*)jquery-sls-lang\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+			}
+			if (lang!==null && lang!=="") {
+				this.setLang(lang);
+				return true;
+			}else{
+				return false;
+			}
+		},
+
+		/**
+		* saveLang()
+		*
+		* Save current language code to persistent storage.
+		*
+		*/
+		saveLang: function() {
+			if (this.storage){
+				sessionStorage.setItem("jquery-sls-lang", this.settings.lang);
+			}else{
+				var d=new Date();
+				d.setTime(d.getTime()+(365*24*60*60*1000));
+				var expires="expires="+d.toUTCString();
+				document.cookie="jquery-sls-lang="+this.settings.lang+";"+expires+";path=/";
+			}
+		},
+
+		/**
+		* getLang()
+		*
+		* Get current language code.
+		*
+		* @return string : Language code
+		*/
+		getLang: function() {
+			return this.settings.lang;
+		},
+
+		/**
+		* setLang()
+		*
+		* Switch current language by translating the whole document.
+		*
+		* @param string lang : Language code
+		*/
+		setLang: function(lang) {
+			if (lang!=this.settings.lang){
+				if (lang==this.settings.defaultLang){
+					$.sls.queue.push(function(){
+						// Switch back to default language
+						_translate($(document), true, $.sls.settings.lang, $.sls.settings.defaultLang, $.sls.translations, true);
+						$.sls.settings.lang=lang;
+						if ($.sls.settings.persistent){
+							$.sls.saveLang();
+						}
+					});
+					_exec();
+				}else{
+					// Switch to a new language
+					$.ajax({
+						dataType: "json",
+						url: this.settings.path+lang+".json",
+						success: function (data) {
+							$.sls.queue.push(function(){
+								// Sanitize new dictionary
+								if ($.sls.settings.clean) {
+									var sdata={};
+									$.each(data, function(index, value){
+										sdata[_sanitize(index)]=value;
+									});
+								}else{
+									sdata=data;
+								}
+								// Create cross translation dictionary
+								var cross={};
+								$.each($.sls.translations, function(index, value){
+									if ($.type(sdata[index])!=="undefined"){
+										cross[value]=sdata[index];
+									}
+								});
+								// Do cross translation
+								_translate($(document), true, $.sls.settings.lang, lang, cross, false, true);
+								// Save new dictionary
+								$.sls.translations=sdata;
+								// Translate remaining from default language
+								_translate($(document), true, $.sls.settings.defaultLang, lang, $.sls.translations);
+								// Save new language
+								$.sls.settings.lang=lang;
+								if ($.sls.settings.persistent){
+									$.sls.saveLang();
+								}
+								// Trigger custom event with the new lang parameter
+								$.event.trigger({type: "jquery-sls-language-switched", message: lang});
+							});
+							_exec();
+						},
+						error: function (jqXHR, textStatus) {
+							throw('Error loading language: '+lang+' ('+textStatus+')');
+						}
+					});
+				}
+			}
+		},
+
+		/**
+		* t()
+		*
+		* Translate single string from default language to current language.
+		*
+		* @param string str : String to translate
+		*/
+		t: function(str) {
+			$.each(this.translations, function(index, value){
+			    if (str==index){
+				    str = value;
+			    }
+			});
+			return str;
+		}
+
+	};
+
+	/**
+	* _exec()
+	*
+	* Private method used internally. Execute the function in queue, decrease the chance of unexpected behavior.
+	*/
+	var _exec=function(recursion) {
+		if (recursion || ($.sls.executing==false)) {
+			$.sls.executing==true;
+			if ($.sls.queue.length) {
+				// Get the function from queue (with FIFO ordering)
+				var f=$.sls.queue.shift();
+				f();
+				if ($.sls.queue.length) {
+					// We don't want another recursion tree (the first one will already handle any appended jobs)
+					_exec(true);
+				}
+			}
+			$.sls.executing==false;
+		}
+	};
+
+	/**
+	* _sanitize()
+	*
+	* Private method used internally. Trim, remove excessive spaces.
+	*/
+	var _sanitize=function(str) {
+		if ($.sls.settings.clean) {
+			// Trim, remove excessive spaces
+			// New lines handled separately (\s already handles new lines but the below pattern does not handle single \n)
+			return $.trim(str).replace(/[\r\n]+/g, ' ').replace(/\s\s+/g, ' ');
+		}else{
+			// Only trim
+			return $.trim(str);
+		}
+	};
+
+	/**
+	* _kvp()
+	*
+	* Private method used internally. Process key-value pair.
+	*/
+	var _kvp=function(object, index, value, toLang) {
+		// Translate innerHTML
+		//var key=_sanitize($(object).text());
+		var key=_sanitize($(object).html());
+		//if (key==index){
+		if (key==_sanitize(index)){
+			// TODO: Conflicts with MutationObserver. Changing attributes before value is a temporary a solution.
+			$(object).attr( "lang",toLang );
+			$.sls.htmlO.call($(object), value );
+		}
+		// Translate known attributes
+		$.each($.sls.attr, function(i, v){
+			var attrValue=$(object).attr(v);
+			if (attrValue==index){
+				$(object).attr("lang",toLang);
+				// Translate attribute, remove html tags in translation (Other html entities should be handled manually!)
+				$(object).attr(v, value.replace(/<[^<]*>/g, ''));
+			}
+		});
+		// Translate some input types by values
+		$(object).filter('input[type="button"], input[type="submit"], input[type="reset"], input[type="hidden"], button').each(function() {
+			var val=$(object).val();
+			if (val==index){
+				$(object).attr("lang",toLang);
+				$(object).val(value.replace(/<[^<]*>/g, ''));
+			}
+		});
+	};
+
+	/**
+	* _translate()
+	*
+	* Private method used internally. Main translate function.
+	*/
+	var _translate=function(object, descendants, fromLang, toLang, translations, reverse, fallback) {
+		object=(descendants) ? object.find('[lang="'+fromLang+'"]') : object.filter('[lang="'+fromLang+'"]');
+		object.each(function(idx, element) {
+			$.each(translations, function(index, value){
+				var tindex=(reverse) ? value : index;
+				var tvalue=(reverse) ? index : value;
+				_kvp(element, tindex, tvalue, toLang);
+			});
+			// Switch back to default language if cross translation not found
+			if (fallback && ($(element).attr("lang")==$.sls.settings.lang)){
+				$.each($.sls.translations, function(index, value){
+					_kvp(element, value, index, $.sls.settings.defaultLang);
+				});
+			}
+		});
+	};
+
+	/**
+	* _log()
+	*
+	* Private method used internally. Console log
+	*/
+	var _log= function(str) {
+		if (console && console.log) {
+			console.log(str);
+		}
+	};
+
+	/**
+	* sls()
+	*
+	* Declare jQuery function to translate by jQuery selector from default language to current language.
+	*
+	* @return object : jQuery chainable object
+	*/
+	$.fn.sls= function() {
+		// Translate selected element
+		_translate(this, false, $.sls.settings.defaultLang, $.sls.settings.lang, $.sls.translations);
+		// Translate descendent elements
+		_translate(this, true, $.sls.settings.defaultLang, $.sls.settings.lang, $.sls.translations);
+		// Make plugin method chainable
+		return this;
+	};
+
+	/**
+	* Declare jQuery variable
+	*/
+	$.sls=sls;
+
+})(jQuery, document);
+
+    </script>
+
+
+
+    {% block css %}
+
+    {% endblock %}
+
+
+</head>
+<body lang="geo">
+
+{% block current_page_element_for_products_html %}
+
+{% endblock %}
+
+
+
+<div class="loader">
+    <img src="{% static 'loader.gif' %}" style="width: 60px"/>
+</div>
+
+
+
+
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="nav-item justify-content-end"><img src="{% static 'frame atelier without script.png' %}" width="50px" height="50px"> </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto mr-auto" >
+            <li class="nav-item native">
+                <a class="nav-link" href="{% url 'ShopHome' %}" lang="geo">მთავარი</a>
+            </li>
+            <li class="nav-item native">
+                <a class="nav-link" href="{% url 'Products' %}" lang="geo">პროდუქცია</a>
+            </li>
+
+            <li class="nav-item native">
+                <a class="nav-link" href="{% url 'AboutUs' %}" lang="geo">ჩვენ შესახებ</a>
+            </li>
+            <li class="nav-item native">
+                <a class="nav-link" href="{% url 'ContactUs' %}" lang="geo">კონტაქტი</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav mr-auto">
+{#            <li class="nav-item dropdown">#}
+{#                <div class="hoverdropdown1">#}
+{#                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                        KA#}
+{#                    </a>#}
+{#                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                        <a class="dropdown-item" href="#">KA</a>#}
+{#                        <a class="dropdown-item" href="#">EN</a>#}
+{#                        <a class="dropdown-item" href="#">RU</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </li>#}
+            <li class="nav-item">
+                <form name="myform" id ="myform" method="post">{% csrf_token %}
+                <select name="selected_lang" id="lang-switcher" class="form-control" data-style="btn-dark" data-width="fit" onchange="selectLanguage(this);" style="background-color: transparent; border-color: transparent; color: white;">
+                  <option value="geo" style="color: black">geo</option>
+                  <option value="eng" style="color: black">eng</option>
+                  <option value="rus" style="color: black">rus</option>
+                </select>
+                </form>
+            </li>
+
+            <li class="nav-item dropdown">
+                <div class="hoverdropdown2">
+                <a class="nav-link"><img src="{% static 'circle-cropped.png' %}" width="24"><span class="sr-only">(current)</span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% if request.user.is_authenticated %}
+                            <span class="dropdown-item">{{ request.user.name }}</span>
+                            <div class="dropdown-divider"></div>
+                            <span class="dropdown-item">{{ request.user.email }}</span>
+                            <a class="dropdown-item" href="#" lang="geo">შეკვეთები</a>
+                            <a class="dropdown-item" href="{% url 'log_out' %}" lang="geo">გამოსვლა</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'log_in' %}" lang="geo">შესვლა</a>
+                            <a class="dropdown-item" href="{% url 'register' %}" lang="geo">რეგისტრაცია</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item" lang="geo">
+               <a class="nav-link" href="{% url 'cart_detail' %}"><img src="{% static 'cart-59-64.png' %}" width="24"><span class="sr-only">(current)</span>
+                   {% if request.session.total_amount_in_cart_products is None %}
+                    <span class="badge badge-light" id="cart-total"> 0 </span>
+                    {% else %}
+                    <span class="badge badge-light" id="cart-total"> {{request.session.total_amount_in_cart_products|floatformat:0}}</span>
+                   {% endif %}
+                    </a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+{#    <div id="result"></div>#}
+
+
+{% block html_elements %}
+
+{% endblock %}
+
+
+
+
+<div class="scroll-top-wrapper ">
+  <span class="scroll-top-inner">
+    <i class="fa fa-2x fa-arrow-circle-up"></i>
+  </span>
+</div>
+
+<footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="mail">
+        <i class="fa fa-envelope" aria-hidden="true"></i> <a href = "mailto: framesatelier10522@gmail.com">framesatelier10522@gmail.com</a>
+        <br>
+        <i class="fa fa-phone" aria-hidden="true"></i> <a href = "tel: +995 32 2 14 24 23">+995 (32) 2 14 24 23</a>
+    </div>
+    <br>
+    <br>
+    <div class="container text-center">
+        <small>Copyright &copy; 2020 Your Website. All rights reserved.</small>
+        <br>
+        <small>Made by Giorgi Gegetchkori & Anri Kezeroti.</small>
+
+    </div>
+</footer>
+
+
+
+<script>
+$(document).ready(function(){
+
+    $(function(){
+
+        $(document).on( 'scroll', function(){
+
+            if ($(window).scrollTop() > 100) {
+                $('.scroll-top-wrapper').addClass('show');
+            } else {
+                $('.scroll-top-wrapper').removeClass('show');
+            }
+        });
+
+        $('.scroll-top-wrapper').on('click', scrollToTop);
+    });
+
+    function scrollToTop() {
+        verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
+        element = $('body');
+        offset = element.offset();
+        offsetTop = offset.top;
+        $('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
+    }
+
+});
+</script>
+
+
+<script>
+window.addEventListener("load", function () {
+const loader = document.querySelector(".loader");
+loader.className += " hidden"; // class "loader hidden"
+});
+</script>
+
+
+<script src="{% static 'shop/language_switcher.js' %}"></script>
+<script>
+    $(document).ready(function () {
+    // Initialization
+    $.sls.init({
+        defaultLang: "geo",
+        path: "{% static 'shop/languages/' %}",
+        persistent: true,
+        clean: true,
+        attributes: ["title", "data-my-custom-attribute"],
+        observe: document
+    });
+
+    // Event hook example
+    $(document).on("jquery-sls-language-switched", function(event){
+        // Make select element reflect current language if language loaded from persistence
+        if ( $('#lang-switcher').val != $.sls.getLang() ) {
+            $('#lang-switcher').val($.sls.getLang());
+        }
+        console.log( "Language switched: " + event.message );
+
+    });
+
+});
+
+function selectLanguage(select) {
+    $.sls.setLang(select.value);
+    window.location.reload();
+    document.myform.submit();
+}
+
+</script>
+
+
+
+
+
+
+
+
+{% block js %}
+
+{% endblock %}
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+{% block otherjs %}
+
+{% endblock %}
+
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+
+
+
+
+
+</body>
+</html>
+
+{% block map_js %}
+{% endblock %}

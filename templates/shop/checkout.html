@@ -1,0 +1,61 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block css %}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.min.js"></script>#}
+{#    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'>#}
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" href="{% static 'shop/checkout.css' %}">
+{% endblock %}
+
+{% block html_elements %}
+<div class="padding">
+    <div class="row">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="col-sm-12 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6"> <span lang="geo">გადახდა საკრედიტო ბარათით/TBCpay</span> </div>
+                            <div class="col-md-6 text-right" style="margin-top: -5px;"> <img src="https://img.icons8.com/color/36/000000/visa.png"> <img src="https://img.icons8.com/color/36/000000/mastercard.png"> </div>
+                        </div>
+                    </div>
+
+                    <form action="">
+                    <div class="card-body" style="height: 450px">
+                        <div class="form-group"> <label for="cc-number" class="control-label" lang="geo">ბარათის ნომერი</label> <input id="cc-number" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "16" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required> </div>
+                        <p lang="geo">მოქმედების ვადა</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group"> <label for="cc-exp" class="control-label" lang="geo">თვე</label> <input id="cc-exp" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "2" max="12" onkeyup="enforceMinMax(this)" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="••" required> </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"> <label for="cc-exp1" class="control-label" lang="geo">წელი</label> <input id="cc-exp1" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "2" class="input-lg form-control cc-exp1" autocomplete="off" placeholder="••" required> </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"> <label for="cc-cvc" class="control-label">CVC2/CVV2</label> <input id="cc-cvc" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "3" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required> </div>
+                            </div>
+                        </div>
+<!--                        <div class="form-group"> <label for="numeric" class="control-label">CARD HOLDER NAME</label> <input type="text" class="input-lg form-control"> </div>-->
+                        <div class="form-group button"> <input value="გადახდა" lang="geo" type="submit" class="btn btn-outline-success btn-lg form-control" style="font-size: .8rem;"> </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'shop/checkout.js' %}"></script>
+{% endblock %}

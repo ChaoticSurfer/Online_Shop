@@ -1,0 +1,239 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{% block css_link_1_for_productView_html_and_js_link_for_map %}
+    <script>
+        L_NO_TOUCH = false;
+        L_DISABLE_3D = false;
+    </script>
+{% endblock %}
+
+
+{% block css %}
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+{#    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>#}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'shop/contact.css' %}">
+{% endblock %}
+
+
+{% block html_elements %}
+<br>
+<br>
+<h4 lang="geo">ფილიალები და საკონტაქტო ინფორმაცია</h4>
+
+
+
+<div class="folium-map" id="map_d37c008199df4958b78c297bc914f594" style="width: 85%;height: 450px;"></div>
+
+<br>
+<br>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr class="bg-dark text-white">
+            <th scope="col" lang="geo">მისამართი</th>
+            <th scope="col" lang="geo">ორშაბათი-შაბათი</th>
+            <th scope="col" lang="geo">კვირა</th>
+            <th scope="col" lang="geo">ტელეფონის ნომერი</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="td" lang="geo">თბილისი, კოსტავას 5</td>
+            <td class="td">10:00-19:30</td>
+            <td class="td">10:00-18:00</td>
+            <td class="td">+995 (32) 2 14 24 23</td>
+        </tr>
+        <tr>
+            <td class="td" lang="geo">თბილისი, ჯორჯაძის 5</td>
+            <td class="td">10:00-18:00</td>
+            <td class="td">10:00-18:00</td>
+            <td class="td">+995 (32) 2 92 35 50</td>
+        </tr>
+        <tr>
+            <td class="td" lang="geo">თბილისი, გახოკიძის 22</td>
+            <td class="td">10:00-17:00</td>
+            <td class="td" lang="geo">დაკეტილია</td>
+            <td class="td">+995 593 27 05 04</td>
+        </tr>
+        <tr>
+            <td class="td" lang="geo">თბილისი, რუსთაველის 37</td>
+            <td class="td">11:00-17:00</td>
+            <td class="td">11:00-17:00</td>
+            <td class="td">+995 (32) 2 18 28 88</td>
+        </tr>
+        <tr>
+            <td class="td" lang="geo">თბილისი, აბაშიძის 10</td>
+            <td class="td">10:00-18:00</td>
+            <td class="td">10:00-18:00</td>
+            <td class="td">+995 (32) 2 14 36 24</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+
+
+{% block map_js %}
+<script>
+
+    var map_d37c008199df4958b78c297bc914f594 = L.map(
+        "map_d37c008199df4958b78c297bc914f594",
+        {
+            center: [41.7000, 44.8271],
+            crs: L.CRS.EPSG3857,
+            zoom: 11.4,
+            zoomControl: true,
+            preferCanvas: false,
+        }
+    );
+
+
+
+
+
+    var tile_layer_8bf9faf98df84a04a7189eabef3f0163 = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+    ).addTo(map_d37c008199df4958b78c297bc914f594);
+
+
+    var marker_bae3824621c14a82b34b1141e4331e9e = L.marker(
+        [41.705031, 44.790158],
+        {}
+    ).addTo(map_d37c008199df4958b78c297bc914f594);
+
+
+    var popup_2bce9089062e460281ee669e41c1e20c = L.popup({"maxWidth": "100%"});
+
+
+    var html_b8a7a1fd78f64d7da4e85e1eba2d0874 = $(`<div id="html_b8a7a1fd78f64d7da4e85e1eba2d0874" style="width: 100.0%; height: 100.0%;"><b lang="geo">კოსტავას 5</b></div>`)[0];
+    popup_2bce9089062e460281ee669e41c1e20c.setContent(html_b8a7a1fd78f64d7da4e85e1eba2d0874);
+
+
+    marker_bae3824621c14a82b34b1141e4331e9e.bindPopup(popup_2bce9089062e460281ee669e41c1e20c)
+    ;
+
+
+
+
+    marker_bae3824621c14a82b34b1141e4331e9e.bindTooltip(
+        `<div lang="geo">
+                     კოსტავას ფილიალი
+                 </div>`,
+        {"sticky": true}
+    );
+
+
+    var marker_6a79b4397a8b45069361832bcab11836 = L.marker(
+        [41.698018, 44.800834],
+        {}
+    ).addTo(map_d37c008199df4958b78c297bc914f594);
+
+
+    var popup_a0dd84819e43479081bfb58c1a882dac = L.popup({"maxWidth": "100%"});
+
+
+    var html_fa792e4554fb482c94bda819e24aad52 = $(`<div id="html_fa792e4554fb482c94bda819e24aad52" style="width: 100.0%; height: 100.0%;"><b lang="geo">ჯორჯაძის 5</b></div>`)[0];
+    popup_a0dd84819e43479081bfb58c1a882dac.setContent(html_fa792e4554fb482c94bda819e24aad52);
+
+
+    marker_6a79b4397a8b45069361832bcab11836.bindPopup(popup_a0dd84819e43479081bfb58c1a882dac)
+    ;
+
+
+
+
+    marker_6a79b4397a8b45069361832bcab11836.bindTooltip(
+        `<div lang="geo">
+                     ჯორჯაძის ფილიალი
+                 </div>`,
+        {"sticky": true}
+    );
+
+
+    var marker_9b3172abd4f24669b570be3d8addaa8e = L.marker(
+        [41.69378, 44.890895],
+        {}
+    ).addTo(map_d37c008199df4958b78c297bc914f594);
+
+
+    var popup_62c5092e84884b74b31db151a0d953af = L.popup({"maxWidth": "100%"});
+
+
+    var html_cc12c2756e7b4dd48c63402e9bf17c4a = $(`<div id="html_cc12c2756e7b4dd48c63402e9bf17c4a" style="width: 100.0%; height: 100.0%;"><b lang="geo">გახოკიძის 22</b></div>`)[0];
+    popup_62c5092e84884b74b31db151a0d953af.setContent(html_cc12c2756e7b4dd48c63402e9bf17c4a);
+
+
+    marker_9b3172abd4f24669b570be3d8addaa8e.bindPopup(popup_62c5092e84884b74b31db151a0d953af)
+    ;
+
+
+
+
+    marker_9b3172abd4f24669b570be3d8addaa8e.bindTooltip(
+        `<div lang="geo">
+                     გახოკიძის ფილიალი
+                 </div>`,
+        {"sticky": true}
+    );
+
+    var marker_bae3824621c14a82b34b1141e4331e9e = L.marker(
+        [41.703478, 44.791266],
+        {}
+    ).addTo(map_d37c008199df4958b78c297bc914f594);
+
+
+    var popup_2bce9089062e460281ee669e41c1e20c = L.popup({"maxWidth": "100%"});
+
+
+    var html_b8a7a1fd78f64d7da4e85e1eba2d0874 = $(`<div id="html_b8a7a1fd78f64d7da4e85e1eba2d0874" style="width: 100.0%; height: 100.0%;"><b lang="geo">რუსთაველის 37</b></div>`)[0];
+    popup_2bce9089062e460281ee669e41c1e20c.setContent(html_b8a7a1fd78f64d7da4e85e1eba2d0874);
+
+
+    marker_bae3824621c14a82b34b1141e4331e9e.bindPopup(popup_2bce9089062e460281ee669e41c1e20c)
+    ;
+
+
+
+
+    marker_bae3824621c14a82b34b1141e4331e9e.bindTooltip(
+        `<div lang="geo">
+                     რუსთაველის ფილიალი
+                 </div>`,
+        {"sticky": true}
+    );
+
+    var marker_bae3824621c14a82b34b1141e4331e9e = L.marker(
+        [41.706769, 44.772272],
+        {}
+    ).addTo(map_d37c008199df4958b78c297bc914f594);
+
+
+    var popup_2bce9089062e460281ee669e41c1e20c = L.popup({"maxWidth": "100%"});
+
+
+    var html_b8a7a1fd78f64d7da4e85e1eba2d0874 = $(`<div id="html_b8a7a1fd78f64d7da4e85e1eba2d0874" style="width: 100.0%; height: 100.0%;"><b lang="geo">აბაშიძის 10</b></div>`)[0];
+    popup_2bce9089062e460281ee669e41c1e20c.setContent(html_b8a7a1fd78f64d7da4e85e1eba2d0874);
+
+
+    marker_bae3824621c14a82b34b1141e4331e9e.bindPopup(popup_2bce9089062e460281ee669e41c1e20c)
+    ;
+
+
+
+
+    marker_bae3824621c14a82b34b1141e4331e9e.bindTooltip(
+        `<div lang="geo">
+                     აბაშიძის ფილიალი
+                 </div>`,
+        {"sticky": true}
+    );
+
+</script>
+
+{% endblock %}

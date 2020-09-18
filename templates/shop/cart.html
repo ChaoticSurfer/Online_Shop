@@ -1,0 +1,168 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'shop/cart_style_1.css' %}">
+{% endblock %}
+
+
+
+{% block html_elements %}
+<br>
+<br>
+<h4 id="shopping_cart_header" lang="geo">კალათა</h4>
+<br>
+<br>
+<br>
+<div class="shopping-cart">
+
+    <div class="column-labels">
+        <label class="product-image" lang="geo">ფოტო</label>
+        <label class="product-details" lang="geo">პროდუქტი</label>
+<!--         class="property">Property            ეს details ბოლოში მიეკროს დამატებით თვისება მაგ ფერი -->
+        <label class="product-price" lang="geo">ფასი</label>
+        <label class="product-quantity" lang="geo">რაოდენობა</label>
+{#        <label class="product-removal">ამოღება</label>#}
+        <label class="product-line-price" lang="geo">ჯამი</label>
+    </div>
+    <!--            -->
+    {% for key,value in request.session.cart.items %}
+    <div class="product">
+        <div class="product-image">
+            <img class="sub-product-image" src="{{value.image}}">
+        </div>
+        <div class="product-details">
+            {% if selected_lang == 'geo' %}
+            <div class="product-title" lang="geo">{{value.name_geo}}</div>
+            {% elif selected_lang == 'eng' %}
+            <div class="product-title" lang="geo">{{value.name_eng}}</div>
+            {% elif selected_lang == 'rus' %}
+            <div class="product-title" lang="geo">{{value.name_rus}}</div>
+            {% else %}
+            <div class="product-title" lang="geo">{{value.name_geo}}</div>
+            {% endif %}
+        </div>
+        <div class="product-price">{{value.price|floatformat:2}} ₾</div>
+        <div class="product-quantity">
+{#            <input type="number" value="1" min="1">#}
+            <p class="quantity left">{{value.quantity}}</p>
+						<div class="quantity">
+							<img class="chg-quantity update-cart" src="{% static 'arrow-up.png' %}" onclick="window.location.href='{% url 'item_increment' key %}'" width="10px">
+{#                           data-action="add" data-product="{{item.product.id}}"#}
+							<img class="chg-quantity update-cart" src="{% static 'arrow-down.png' %}" onclick="window.location.href='{% url 'item_decrement' key %}'" width="10px">
+{#					data-action="remove"	data-product="{{item.product.id}}"#}
+                        </div>
+{#            {% if value.quantity == value.limit %}#}
+{#                <div class="alert alert-danger alert-dismissible fade show" data-delay="1000" role="alert" style="position: absolute; top: 7rem; right: 1rem;">#}
+{#                    <strong>მარაგშია {{ value.limit }} ცალი</strong>#}
+{#                </div>#}
+{#                <script>#}
+{#                $(".alert-dismissible").fadeTo(2500, 500).slideUp(500, function(){#}
+{#                $(".alert-dismissible").alert('close');#}
+{#                });#}
+{#                </script>#}
+{#            {% endif %}#}
+        </div>
+        <div class="product-removal">
+            <button class="remove-product" onclick="window.location.href='{% url 'item_clear' key %}'">
+                <i class="fa fa-trash-o" style="font-size:24px"></i>
+            </button>
+        </div>
+        <div class="product-line-price">{{ value.total_price|floatformat:2 }} ₾</div>
+    </div>
+    {% endfor %}
+    <!--            -->
+{#    <div class="product">#}
+{#        <div class="product-image">#}
+{#            <img class="sub-product-image" src="joke2.jpg" alt="">#}
+{#        </div>#}
+{#        <div class="product-details">#}
+{#            <div class="product-title">ULTRABOOST UNCAGED SHOES</div>#}
+{#        </div>#}
+{#        <div class="product-price">45.99</div>#}
+{#        <div class="product-quantity">#}
+{#            <input type="number" value="1" min="1">#}
+{#        </div>#}
+{#        <div class="product-removal">#}
+{#            <button class="remove-product">#}
+{#                <i class="fa fa-trash-o" style="font-size:24px"></i>#}
+{#            </button>#}
+{#        </div>#}
+{#        <div class="product-line-price">45.99</div>#}
+{#    </div>#}
+{##}
+{#    <div class="product">#}
+{#        <div class="product-image">#}
+{#            <img class="sub-product-image" src="joke.jpg">#}
+{#        </div>#}
+{#        <div class="product-details">#}
+{#            <div class="product-title">Nike Flex Form TR Women's Sneaker</div>#}
+{##}
+{#        </div>#}
+{#        <div class="product-price">12.99</div>#}
+{#        <div class="product-quantity">#}
+{#            <input type="number" value="1" min="1">#}
+{#        </div>#}
+{#        <div class="product-removal">#}
+{#            <button class="remove-product">#}
+{#                <i class="fa fa-trash-o" style="font-size:24px"></i>#}
+{#            </button>#}
+{#        </div>#}
+{#        <div class="product-line-price">25.98</div>#}
+{#    </div>#}
+
+
+
+    <div class="totals">
+
+{#        <div class="totals-item">#}
+{#            <label lang="geo">რაოდენობა</label>#}
+{#            <div class="totals-value" id="cart-subtotal">{{cart_order.get_cart_items}}</div>#}
+{#        </div>#}
+
+
+
+
+        <!--        <div class="totals-item">-->
+        <!--&lt;!&ndash;            <label>Tax (5%)</label>&ndash;&gt;-->
+        <!--            <div class="totals-value" id="cart-tax">3.60</div>-->
+        <!--        </div>-->
+{#        <div class="totals-item">#}
+{#            <label>Shipping</label>#}
+{#            <div class="totals-value" id="cart-shipping">15.00</div>#}
+{#        </div>#}
+        <div class="totals-item totals-item-total">
+            <label lang="geo">ჯამი</label>
+            <div class="totals-value" id="cart-total">{{ get_total_price|floatformat:2 }} ₾</div>
+        </div>
+    </div>
+
+{#    <a href="{% url 'Checkout' %}"><button class="checkout" lang="geo">გადახდა</button></a>#}
+
+
+{#    <a href="{% url 'Products' %}"><button class="continue_shipping btn-outline-success" lang="geo">გააგრძელეთ შოპინგი</button></a>#}
+        <input value="გადახდა" lang="geo" type="submit" onclick="window.location.href='{% url 'Delivery' %}'" class="checkout btn btn-outline-success form-control" style="font-size: .8rem;">
+        <input value="გააგრძელეთ შოპინგი" lang="geo" type="button" onclick="window.location.href='{% url 'Products' %}'" class="continue_shipping btn btn-outline-dark form-control" style="font-size: .8rem;">
+</div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+{% endblock %}
+
+
+{% block js %}
+{#<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>#}
+{#<script src="{% static 'shop/javascript.js' %}"></script>#}
+{% endblock %}
+

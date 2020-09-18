@@ -1,0 +1,372 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+
+{% block css %}
+        <link rel="stylesheet" href="{% static 'shop/products_style.css' %}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock %}
+
+
+{% block current_page_element_for_products_html %}
+    <input type='hidden' id='current_page' />
+    <input type='hidden' id='show_per_page' />
+{% endblock %}
+
+
+
+{% block html_elements %}
+
+    {% if request.get_full_path == "/products/" or request.get_full_path == "/products/sort%3Dasc/" or request.get_full_path == "/products/sort%3Ddesc/" %}
+    <div id="toolbar">
+    <select name="sort" id="sort" class="form-control" onChange="window.location.href=this.value">
+        <option value="" disabled selected lang="geo">სორტირება</option>
+        <option value="/products/sort=asc/" lang="geo">ფასის ზრდით</option>
+        <option value="/products/sort=desc/" lang="geo">ფასის კლებადობით</option>
+    </select>
+    </div>
+    {% elif request.get_full_path == "/products/filter%3DPaint/" or request.get_full_path == "/products/filter%3DPaint_Oil_Color_Product/" or request.get_full_path == "/products/filter%3DPaint_Acrylic_Color_Product/" or request.get_full_path == "/products/filter%3DPaint_Gouache_Color_Product/" or request.get_full_path == "/products/filter%3DPaint_Water_Color_Product/" or request.get_full_path == "/products/filter%3DPaint_Other_Color_Product/" or request.get_full_path == "/products/filter%3DPastel/" or request.get_full_path == "/products/filter%3DPastel_Oil_Color_Product/" or request.get_full_path == "/products/filter%3DPastel_Soft_Color_Product/" or request.get_full_path == "/products/filter%3DPastel_Water_Color_Product/" or request.get_full_path == "/products/filter%3DPastel_Dry_Color_Product/" or request.get_full_path == "/products/filter%3DPencil/" or request.get_full_path == "/products/filter%3DAccessories/" or request.get_full_path == "/products/filter%3DAccessories_Molbert/" or request.get_full_path == "/products/filter%3DAccessories_Auxiliary_Fluids/" or request.get_full_path == "/products/filter%3DAccessories_Palette/" or request.get_full_path == "/products/filter%3DAccessories_Mastehin/" or request.get_full_path == "/products/filter%3DDrawing_boards/" or request.get_full_path == "/products/filter%3DCanvas_rectangle_frame/" or request.get_full_path == "/products/filter%3DCanvas_circular_frame/" or request.get_full_path == "/products/filter%3DCanvas_with_rectangle_frame/" or request.get_full_path == "/products/filter%3DCanvas_with_circular_frame/" or request.get_full_path == "/products/filter%3DDrawing_canvas/" or request.get_full_path == "/products/filter%3DTree_drawing_board/" or request.get_full_path == "/products/filter%3DWater_color_sheet/" or request.get_full_path == "/products/filter%3DCanvas_with_carton/" %}
+    <div id="toolbar">
+    <select name="sort" id="sort" class="form-control" onChange="window.location.href=this.value">
+        <option value="" disabled selected lang="geo">სორტირება</option>
+        <option value="sort=asc/" lang="geo">ფასის ზრდით</option>
+        <option value="sort=desc/" lang="geo">ფასის კლებადობით</option>
+    </select>
+    </div>
+    {% elif request.get_full_path == "/products/filter%3DPaint/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPaint_Oil_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPaint_Acrylic_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPaint_Gouache_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPaint_Water_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPaint_Other_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPastel/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPastel_Oil_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPastel_Soft_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPastel_Water_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPastel_Dry_Color_Product/sort%3Dasc/" or request.get_full_path == "/products/filter%3DPencil/sort%3Dasc/" or request.get_full_path == "/products/filter%3DAccessories/sort%3Dasc/" or request.get_full_path == "/products/filter%3DAccessories_Molbert/sort%3Dasc/" or request.get_full_path == "/products/filter%3DAccessories_Auxiliary_Fluids/sort%3Dasc/" or request.get_full_path == "/products/filter%3DAccessories_Palette/sort%3Dasc/" or request.get_full_path == "/products/filter%3DAccessories_Mastehin/sort%3Dasc/" or request.get_full_path == "/products/filter%3DDrawing_boards/sort%3Dasc/" or request.get_full_path == "/products/filter%3DCanvas_rectangle_frame/sort%3Dasc/" or request.get_full_path == "/products/filter%3DCanvas_circular_frame/sort%3Dasc/" or request.get_full_path == "/products/filter%3DCanvas_with_rectangle_frame/sort%3Dasc/" or request.get_full_path == "/products/filter%3DCanvas_with_circular_frame/sort%3Dasc/" or request.get_full_path == "/products/filter%3DDrawing_canvas/sort%3Dasc/" or request.get_full_path == "/products/filter%3DTree_drawing_board/sort%3Dasc/" or request.get_full_path == "/products/filter%3DWater_color_sheet/sort%3Dasc/" or request.get_full_path == "/products/filter%3DCanvas_with_carton/sort%3Dasc/" %}
+    <div id="toolbar">
+    <select name="sort" id="sort" class="form-control" onChange="window.location.href=this.value">
+        <option value="" disabled selected lang="geo">სორტირება</option>
+        <option value="{{request.get_full_path|slice:':-11'}}sort=asc/" lang="geo">ფასის ზრდით</option>
+        <option value="{{request.get_full_path|slice:':-11'}}sort=desc/" lang="geo">ფასის კლებადობით</option>
+    </select>
+    </div>
+    {% elif request.get_full_path == "/products/filter%3DPaint/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPaint_Oil_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPaint_Acrylic_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPaint_Gouache_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPaint_Water_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPaint_Other_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPastel/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPastel_Oil_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPastel_Soft_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPastel_Water_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPastel_Dry_Color_Product/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DPencil/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DAccessories/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DAccessories_Molbert/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DAccessories_Auxiliary_Fluids/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DAccessories_Palette/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DAccessories_Mastehin/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DDrawing_boards/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DCanvas_rectangle_frame/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DCanvas_circular_frame/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DCanvas_with_rectangle_frame/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DCanvas_with_circular_frame/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DDrawing_canvas/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DTree_drawing_board/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DWater_color_sheet/sort%3Ddesc/" or request.get_full_path == "/products/filter%3DCanvas_with_carton/sort%3Ddesc/" %}
+    <div id="toolbar">
+    <select name="sort" id="sort" class="form-control" onChange="window.location.href=this.value">
+        <option value="" disabled selected lang="geo">სორტირება</option>
+        <option value="{{request.get_full_path|slice:':-12'}}sort=asc/" lang="geo">ფასის ზრდით</option>
+        <option value="{{request.get_full_path|slice:':-12'}}sort=desc/" lang="geo">ფასის კლებადობით</option>
+    </select>
+    </div>
+        {% else %}
+        <div id="toolbar">
+    <select name="sort" id="sort" class="form-control" onChange="window.location.href=this.value">
+        <option value="" disabled selected lang="geo">სორტირება</option>
+        <option value="/products/sort=asc/" lang="geo">ფასის ზრდით</option>
+        <option value="/products/sort=desc/" lang="geo">ფასის კლებადობით</option>
+    </select>
+    </div>
+    {% endif %}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3">
+            <div class="card" id="card-filter">
+            <div class="card-header bg-dark text-white" id="filter-header">
+            <i class="fa fa-filter" lang="geo"> კატეგორიები</i></div>
+            <!-- column1, Vertical Dropdown Menu -->
+{#                {% if request.get_full_path != "/products/sort%3Dasc/" or request.get_full_path != "/products/sort%3Ddesc/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPaint/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPaint_Oil_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPaint_Acrylic_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPaint_Gouache_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPaint_Water_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPaint_Other_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPastel/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPastel_Oil_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPastel_Soft_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPastel_Water_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPastel_Dry_Color_Product/" or request.get_full_path != "/products/sort%3Dasc/filter%3DPencil/" or request.get_full_path != "/products/sort%3Dasc/filter%3DAccessories/" or request.get_full_path != "/products/sort%3Dasc/filter%3DAccessories_Molbert/" or request.get_full_path != "/products/sort%3Dasc/filter%3DAccessories_Auxiliary_Fluids/" or request.get_full_path != "/products/sort%3Dasc/filter%3DAccessories_Palette/" or request.get_full_path != "/products/sort%3Dasc/filter%3DAccessories_Mastehin/" or request.get_full_path != "/products/sort%3Dasc/filter%3DDrawing_boards/" or request.get_full_path != "/products/sort%3Dasc/filter%3DCanvas_rectangle_frame/" or request.get_full_path != "/products/sort%3Dasc/filter%3DCanvas_circular_frame/" or request.get_full_path != "/products/sort%3Dasc/filter%3DCanvas_with_rectangle_frame/" or request.get_full_path != "/products/sort%3Dasc/filter%3DCanvas_with_circular_frame/" or request.get_full_path != "/products/sort%3Dasc/filter%3DDrawing_canvas/" or request.get_full_path != "/products/sort%3Dasc/filter%3DTree_drawing_board/" or request.get_full_path != "/products/sort%3Dasc/filter%3DWater_color_sheet/" or request.get_full_path != "/products/sort%3Dasc/filter%3DCanvas_with_carton/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPaint/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPaint_Oil_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPaint_Acrylic_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPaint_Gouache_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPaint_Water_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPaint_Other_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPastel/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPastel_Oil_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPastel_Soft_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPastel_Water_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPastel_Dry_Color_Product/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DPencil/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DAccessories/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DAccessories_Molbert/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DAccessories_Auxiliary_Fluids/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DAccessories_Palette/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DAccessories_Mastehin/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DDrawing_boards/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DCanvas_rectangle_frame/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DCanvas_circular_frame/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DCanvas_with_rectangle_frame/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DCanvas_with_circular_frame/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DDrawing_canvas/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DTree_drawing_board/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DWater_color_sheet/" or request.get_full_path != "/products/sort%3Ddesc/filter%3DCanvas_with_carton/" %}#}
+            {% if request.get_full_path == '/products/' %}
+                <div id="main-menu" class="list-group">
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Paint/" lang="geo">საღებავები</a><a href="#sub-menu" class="arrow"  data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu">
+                    <a href="/products/filter=Paint_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/filter=Paint_Acrylic_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკრილის</a>
+                    <a href="/products/filter=Paint_Gouache_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">გუაში</a>
+                    <a href="/products/filter=Paint_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/filter=Paint_Other_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სხვა</a>
+                </div>
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Pastel" lang="geo">პასტელები</a><a href="#sub-menu1" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu1">
+                    <a href="/products/filter=Pastel_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/filter=Pastel_Soft_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">SOFT</a>
+                    <a href="/products/filter=Pastel_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/filter=Pastel_Dry_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მშრალი</a>
+                </div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Pencil" lang="geo">ფანქრები</a></div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Accessories" lang="geo">აქსესუარები</a><a href="#sub-menu3" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu3">
+                    <a href="/products/filter=Accessories_Molbert" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მოლბერტი, ეტიუდნიკი</a>
+                    <a href="/products/filter=Accessories_Auxiliary_Fluids" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">დამხმარე სითხეები</a>
+                    <a href="/products/filter=Accessories_Palette" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">პალიტრა</a>
+                    <a href="/products/filter=Accessories_Mastehin" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სამხატვრო შპატელი(მასტეხინი)</a>
+                </div>
+                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Drawing_boards" lang="geo">სახატავი დაფები და ქვეჩარჩოები</a><a href="#sub-menu4" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu4">
+                    <a href="/products/filter=Canvas_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედი ქვეჩარჩო</a>
+                    <a href="/products/filter=Canvas_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიული ქვეჩარჩო</a>
+                    <a href="/products/filter=Canvas_with_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+                    <a href="/products/filter=Canvas_with_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიულ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+{#                    <a href="/products/filter=Drawing_canvas" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">სახატავი ტილო</a>#}
+                    <a href="/products/filter=Tree_drawing_board" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ხის სახატავი დაფა</a>
+                    <a href="/products/filter=Water_color_sheet" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელის სახატავი ფურცელი</a>
+                    <a href="/products/filter=Canvas_with_carton" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მუყაოზე გადაკრული ტილო</a>
+
+                </div>
+{#                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="#">ჩარჩო, პასპარტუ</a><a href="#sub-menu5" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>#}
+{#                <div class="collapse list-group-level1" id="sub-menu5">#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ხის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">პლასტმასის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ალუმინის</a>#}
+{#                </div>#}
+
+            </div>
+            {% elif request.get_full_path == "/products/sort%3Dasc/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPaint/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPaint_Oil_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPaint_Acrylic_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPaint_Gouache_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPaint_Water_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPaint_Other_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPastel/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPastel_Oil_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPastel_Soft_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPastel_Water_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPastel_Dry_Color_Product/" or request.get_full_path == "/products/sort%3Dasc/filter%3DPencil/" or request.get_full_path == "/products/sort%3Dasc/filter%3DAccessories/" or request.get_full_path == "/products/sort%3Dasc/filter%3DAccessories_Molbert/" or request.get_full_path == "/products/sort%3Dasc/filter%3DAccessories_Auxiliary_Fluids/" or request.get_full_path == "/products/sort%3Dasc/filter%3DAccessories_Palette/" or request.get_full_path == "/products/sort%3Dasc/filter%3DAccessories_Mastehin/" or request.get_full_path == "/products/sort%3Dasc/filter%3DDrawing_boards/" or request.get_full_path == "/products/sort%3Dasc/filter%3DCanvas_rectangle_frame/" or request.get_full_path == "/products/sort%3Dasc/filter%3DCanvas_circular_frame/" or request.get_full_path == "/products/sort%3Dasc/filter%3DCanvas_with_rectangle_frame/" or request.get_full_path == "/products/sort%3Dasc/filter%3DCanvas_with_circular_frame/" or request.get_full_path == "/products/sort%3Dasc/filter%3DDrawing_canvas/" or request.get_full_path == "/products/sort%3Dasc/filter%3DTree_drawing_board/" or request.get_full_path == "/products/sort%3Dasc/filter%3DWater_color_sheet/" or request.get_full_path == "/products/sort%3Dasc/filter%3DCanvas_with_carton/" %}
+            <div id="main-menu" class="list-group">
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Dasc/filter=Paint/" lang="geo">საღებავები</a><a href="#sub-menu" class="arrow"  data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu">
+                    <a href="/products/sort%3Dasc/filter=Paint_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/sort%3Dasc/filter=Paint_Acrylic_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკრილის</a>
+                    <a href="/products/sort%3Dasc/filter=Paint_Gouache_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">გუაში</a>
+                    <a href="/products/sort%3Dasc/filter=Paint_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/sort%3Dasc/filter=Paint_Other_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სხვა</a>
+                </div>
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Dasc/filter=Pastel" lang="geo">პასტელები</a><a href="#sub-menu1" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu1">
+                    <a href="/products/sort%3Dasc/filter=Pastel_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/sort%3Dasc/filter=Pastel_Soft_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">SOFT</a>
+                    <a href="/products/sort%3Dasc/filter=Pastel_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/sort%3Dasc/filter=Pastel_Dry_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მშრალი</a>
+                </div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Dasc/filter=Pencil" lang="geo">ფანქრები</a></div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Dasc/filter=Accessories" lang="geo">აქსესუარები</a><a href="#sub-menu3" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu3">
+                    <a href="/products/sort%3Dasc/filter=Accessories_Molbert" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მოლბერტი, ეტიუდნიკი</a>
+                    <a href="/products/sort%3Dasc/filter=Accessories_Auxiliary_Fluids" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">დამხმარე სითხეები</a>
+                    <a href="/products/sort%3Dasc/filter=Accessories_Palette" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">პალიტრა</a>
+                    <a href="/products/sort%3Dasc/filter=Accessories_Mastehin" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სამხატვრო შპატელი(მასტეხინი)</a>
+                </div>
+                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Dasc/filter=Drawing_boards" lang="geo">სახატავი დაფები და ქვეჩარჩოები</a><a href="#sub-menu4" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu4">
+                    <a href="/products/sort%3Dasc/filter=Canvas_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედი ქვეჩარჩო</a>
+                    <a href="/products/sort%3Dasc/filter=Canvas_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიული ქვეჩარჩო</a>
+                    <a href="/products/sort%3Dasc/filter=Canvas_with_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+                    <a href="/products/sort%3Dasc/filter=Canvas_with_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიულ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+{#                    <a href="/products/filter=Drawing_canvas" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">სახატავი ტილო</a>#}
+                    <a href="/products/sort%3Dasc/filter=Tree_drawing_board" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ხის სახატავი დაფა</a>
+                    <a href="/products/sort%3Dasc/filter=Water_color_sheet" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელის სახატავი ფურცელი</a>
+                    <a href="/products/sort%3Dasc/filter=Canvas_with_carton" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მუყაოზე გადაკრული ტილო</a>
+
+                </div>
+{#                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="#">ჩარჩო, პასპარტუ</a><a href="#sub-menu5" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>#}
+{#                <div class="collapse list-group-level1" id="sub-menu5">#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ხის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">პლასტმასის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ალუმინის</a>#}
+{#                </div>#}
+
+            </div>
+            {% elif request.get_full_path == "/products/sort%3Ddesc/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPaint/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPaint_Oil_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPaint_Acrylic_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPaint_Gouache_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPaint_Water_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPaint_Other_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPastel/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPastel_Oil_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPastel_Soft_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPastel_Water_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPastel_Dry_Color_Product/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DPencil/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DAccessories/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DAccessories_Molbert/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DAccessories_Auxiliary_Fluids/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DAccessories_Palette/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DAccessories_Mastehin/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DDrawing_boards/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DCanvas_rectangle_frame/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DCanvas_circular_frame/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DCanvas_with_rectangle_frame/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DCanvas_with_circular_frame/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DDrawing_canvas/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DTree_drawing_board/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DWater_color_sheet/" or request.get_full_path == "/products/sort%3Ddesc/filter%3DCanvas_with_carton/" %}
+             <div id="main-menu" class="list-group">
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Ddesc/filter=Paint/" lang="geo">საღებავები</a><a href="#sub-menu" class="arrow"  data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu">
+                    <a href="/products/sort%3Ddesc/filter=Paint_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/sort%3Ddesc/filter=Paint_Acrylic_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკრილის</a>
+                    <a href="/products/sort%3Ddesc/filter=Paint_Gouache_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">გუაში</a>
+                    <a href="/products/sort%3Ddesc/filter=Paint_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/sort%3Ddesc/filter=Paint_Other_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სხვა</a>
+                </div>
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Ddesc/filter=Pastel" lang="geo">პასტელები</a><a href="#sub-menu1" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu1">
+                    <a href="/products/sort%3Ddesc/filter=Pastel_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/sort%3Ddesc/filter=Pastel_Soft_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">SOFT</a>
+                    <a href="/products/sort%3Ddesc/filter=Pastel_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/sort%3Ddesc/filter=Pastel_Dry_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მშრალი</a>
+                </div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Ddesc/filter=Pencil" lang="geo">ფანქრები</a></div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Ddesc/filter=Accessories" lang="geo">აქსესუარები</a><a href="#sub-menu3" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu3">
+                    <a href="/products/sort%3Ddesc/filter=Accessories_Molbert" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მოლბერტი, ეტიუდნიკი</a>
+                    <a href="/products/sort%3Ddesc/filter=Accessories_Auxiliary_Fluids" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">დამხმარე სითხეები</a>
+                    <a href="/products/sort%3Ddesc/filter=Accessories_Palette" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">პალიტრა</a>
+                    <a href="/products/sort%3Ddesc/filter=Accessories_Mastehin" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სამხატვრო შპატელი(მასტეხინი)</a>
+                </div>
+                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/sort%3Ddesc/filter=Drawing_boards" lang="geo">სახატავი დაფები და ქვეჩარჩოები</a><a href="#sub-menu4" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu4">
+                    <a href="/products/sort%3Ddesc/filter=Canvas_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედი ქვეჩარჩო</a>
+                    <a href="/products/sort%3Ddesc/filter=Canvas_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიული ქვეჩარჩო</a>
+                    <a href="/products/sort%3Ddesc/filter=Canvas_with_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+                    <a href="/products/sort%3Ddesc/filter=Canvas_with_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიულ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+{#                    <a href="/products/filter=Drawing_canvas" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">სახატავი ტილო</a>#}
+                    <a href="/products/sort%3Ddesc/filter=Tree_drawing_board" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ხის სახატავი დაფა</a>
+                    <a href="/products/sort%3Ddesc/filter=Water_color_sheet" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელის სახატავი ფურცელი</a>
+                    <a href="/products/sort%3Ddesc/filter=Canvas_with_carton" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მუყაოზე გადაკრული ტილო</a>
+
+                </div>
+{#                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="#">ჩარჩო, პასპარტუ</a><a href="#sub-menu5" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>#}
+{#                <div class="collapse list-group-level1" id="sub-menu5">#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ხის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">პლასტმასის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ალუმინის</a>#}
+{#                </div>#}
+
+            </div>
+            {% else %}
+            <div id="main-menu" class="list-group">
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Paint/" lang="geo">საღებავები</a><a href="#sub-menu" class="arrow"  data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu">
+                    <a href="/products/filter=Paint_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/filter=Paint_Acrylic_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკრილის</a>
+                    <a href="/products/filter=Paint_Gouache_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">გუაში</a>
+                    <a href="/products/filter=Paint_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/filter=Paint_Other_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სხვა</a>
+                </div>
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Pastel" lang="geo">პასტელები</a><a href="#sub-menu1" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu1">
+                    <a href="/products/filter=Pastel_Oil_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ზეთის</a>
+                    <a href="/products/filter=Pastel_Soft_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">SOFT</a>
+                    <a href="/products/filter=Pastel_Water_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელი</a>
+                    <a href="/products/filter=Pastel_Dry_Color_Product" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მშრალი</a>
+                </div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Pencil" lang="geo">ფანქრები</a></div>
+
+                <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Accessories" lang="geo">აქსესუარები</a><a href="#sub-menu3" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu3">
+                    <a href="/products/filter=Accessories_Molbert" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მოლბერტი, ეტიუდნიკი</a>
+                    <a href="/products/filter=Accessories_Auxiliary_Fluids" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">დამხმარე სითხეები</a>
+                    <a href="/products/filter=Accessories_Palette" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">პალიტრა</a>
+                    <a href="/products/filter=Accessories_Mastehin" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">სამხატვრო შპატელი(მასტეხინი)</a>
+                </div>
+                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="/products/filter=Drawing_boards" lang="geo">სახატავი დაფები და ქვეჩარჩოები</a><a href="#sub-menu4" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>
+                <div class="collapse list-group-level1" id="sub-menu4">
+                    <a href="/products/filter=Canvas_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედი ქვეჩარჩო</a>
+                    <a href="/products/filter=Canvas_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიული ქვეჩარჩო</a>
+                    <a href="/products/filter=Canvas_with_rectangle_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ოთხკუთხედ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+                    <a href="/products/filter=Canvas_with_circular_frame" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">წრიულ ქვეჩარჩოზე გადაჭიმული ტილო</a>
+{#                    <a href="/products/filter=Drawing_canvas" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">სახატავი ტილო</a>#}
+                    <a href="/products/filter=Tree_drawing_board" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">ხის სახატავი დაფა</a>
+                    <a href="/products/filter=Water_color_sheet" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">აკვარელის სახატავი ფურცელი</a>
+                    <a href="/products/filter=Canvas_with_carton" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu" lang="geo">მუყაოზე გადაკრული ტილო</a>
+
+                </div>
+{#                   <div class="list-group-item d-flex justify-content-between list-group-item-action list-group-item-white"><a class="filter" href="#">ჩარჩო, პასპარტუ</a><a href="#sub-menu5" class="arrow" data-toggle="collapse" data-parent="#main-menu"><span class="badge-pill text-success">ↆ</span></a></div>#}
+{#                <div class="collapse list-group-level1" id="sub-menu5">#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ხის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">პლასტმასის</a>#}
+{#                        <a href="#" class="list-group-item list-group-item-action text-success" data-parent="#sub-menu">ალუმინის</a>#}
+{#                </div>#}
+
+            </div>
+            {% endif %}
+            </div>
+
+        </div>
+
+        <div class="col">
+            <div class="row">
+                    {% for i in a %}
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="card" id="card">
+                                <a href="/productView/{{ i.id }}">
+                                    {% if i.pub_date|date:"Y-m-d H:i:s" > today|date:"Y-m-d H:i:s" %}
+                                    <span class="new-product">NEW</span>
+                                    {% endif %}
+                                <img class="card-img-top" src="/media/{{ i.image_low_quality }}" alt="">
+                                <div class="card-body">
+                                    {% if selected_lang == 'geo' %}
+                                    <h6 class="card-title"><a href="/productView/{{ i.id }}" id="product_name" title="{{ i.product_name_geo }}">{{ i.product_name_geo }}</a></h6>
+                                    {% elif selected_lang == 'eng' %}
+                                    <h6 class="card-title"><a href="/productView/{{ i.id }}" id="product_name" title="{{ i.product_name_eng }}">{{ i.product_name_eng }}</a></h6>
+                                    {% elif selected_lang == 'rus' %}
+                                    <h6 class="card-title"><a href="/productView/{{ i.id }}" id="product_name" title="{{ i.product_name_rus }}">{{ i.product_name_rus }}</a></h6>
+                                    {% else %}
+                                    <h6 class="card-title"><a href="/productView/{{ i.id }}" id="product_name" title="{{ i.product_name_geo }}">{{ i.product_name_geo }}</a></h6>
+                                    {% endif %}
+{#                                    <p class="card-text">{{ i.description_geo }}</p>#}
+
+                                    <div class="row">
+                                        <div class="col">
+<!--                                            <p class="btn btn-danger btn-block">{{ i.price }} ₾</p>-->
+                                            <p class="card-text-price">{{ i.price|floatformat:2 }} ₾</p>
+                                        </div>
+                                    </div>
+                                    <span>
+                                            <button data-action="add" id="modalButton" onclick="window.location.href='{% url 'cart_add' i.id %}'" class="btn btn-success my-btn cart add-btn update-cart" lang="geo">კალათაში დამატება</button>
+{#                                    data-product="{{i.id}}"#}
+                                    </span>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="pagination">
+            {% if a.has_previous %}
+            <a class="pagination-action" href="?page=1">
+                <i class="fa fa-angle-double-left"></i>
+            </a>
+            <a class="pagination-action" href="?page={{ a.previous_page_number }}">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            {% endif %}
+
+            {% for num in a.paginator.page_range %}
+            {% if a.number == num %}
+              <span class="pagination-number pagination-current">{{ num }}</span>
+            {% elif num > a.number|add:'-3' and num < a.number|add:'3' %}
+              <a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if a.has_next %}
+            <a class="pagination-action" href="?page={{ a.next_page_number }}">
+                <i class="fa fa-angle-right"></i>
+            </a>
+            <a class="pagination-action" href="?page={{ a.paginator.num_pages }}">
+                <i class="fa fa-angle-double-right"></i>
+            </a>
+            {% endif %}
+
+
+</div>
+<br>
+<br>
+    <br>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+    window.onbeforeunload = function() {
+    localStorage.setItem("sort", $('#sort').val());
+}
+
+window.onload = function() {
+
+    var sort = localStorage.getItem("sort");
+    if (sort !== null) $('#sort').val(sort);
+}
+
+    </script>
+
+    <script>
+    function refresh() {
+        window.location.reload();
+    }
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
