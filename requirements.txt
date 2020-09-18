@@ -134,7 +134,6 @@ prompt-toolkit==3.0.5
 psycopg2==2.8.5
 public==2019.4.13
 py-espeak-ng==0.1.8
-PyAudio==0.2.11
 pycodestyle==2.6.0
 pycparser==2.20
 PyDbLite==3.0.4
