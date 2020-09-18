@@ -1,1 +1,408 @@
 
+# from django import forms
+#
+# PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
+#
+# class CartAddProductForm(forms.Form):
+#     quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int)
+#     update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+from django.db import models
+# from django.db import models
+# from django.db.models import DO_NOTHING
+# from authentication.models import User
+# from django.utils import timezone
+# from shop.models import Product
+# from django.core.validators import MinValueValidator, MinLengthValidator, MaxLengthValidator, MaxValueValidator, \
+#     EmailValidator
+# from datetime import datetime as django_datetime
+# import datetime
+# from django.forms import ModelForm
+#
+# # class Successful_Transaction(models.Model):
+# #     transaction_id = models.AutoField
+# #     transaction_time = models.DateTimeField
+# #     user = models.ForeignKey(User, on_delete=DO_NOTHING)
+# #     price_paid = models.FloatField
+# #     place_to_be_delivered = models.IntegerField
+#
+#
+# class Successful_Transaction(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+#     transaction_id = models.AutoField
+#     transaction_time = models.DateTimeField(auto_now_add=True)
+#     phone = models.CharField(blank=True, max_length=20)
+#     delivery_type = models.BooleanField(default=False)
+#     address = models.CharField(blank=True, max_length=150)
+#     total_price = models.FloatField()
+#     ip = models.CharField(blank=True, max_length=20)
+#
+#     def __str__(self):
+#         return self.user.name, self.user.email
+#
+# class OrderForm(ModelForm):
+#     class Meta:
+#         model = Successful_Transaction
+#         fields = ['user','delivery_type','address','phone', 'total_price']
+#
+#
+# class OrderProduct(models.Model):
+#     order = models.ForeignKey(Successful_Transaction, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+#     quantity = models.IntegerField()
+#     price = models.FloatField()
+#     amount = models.FloatField()
+#     order_time = models.DateTimeField(auto_now_add=True)
+#
+#     def __str__(self):
+#         return self.product.product_name_geo, self.product.product_ider.name, self.product.product_name_geo, self.product.product_id, self.price, self.quantity, self.total_price, self.order_time
+from django.test import TestCase
+
+# Create your tests here.
+
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
+    path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
+    path('cart/item_increment/<int:id>/', views.item_increment, name='item_increment'),
+    path('cart/item_decrement/<int:id>/', views.item_decrement, name='item_decrement'),
+    path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
+    path('cart/cart-detail/', views.cart_detail, name='cart_detail'),
+]
+
+# from django.conf.urls import url
+# from . import views
+#
+# urlpatterns = [
+#     url(r'^$', views.cart_detail, name='cart_detail'),
+#     url(r'^add/(?P<product_id>\d+)/$', views.cart_add, name='cart_add'),
+#     url(r'^remove/(?P<product_id>\d+)/$', views.cart_remove, name='cart_remove'),
+# ]
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+import json
+
+from shop.models import Product
+# from shop.views import get_products
+from .cart import Cart
+
+
+def find_product_by_id(id):
+    return Product.objects.get(pk=id)
+
+
+# from shop.views import get_products
+@login_required(login_url="log_in")
+def cart_add(request, id):
+    cart = Cart(request)
+    product = find_product_by_id(id)
+    cart.add(product=product)
+    get_total_amount = cart.get_total_amount()
+    request.session['total_amount_in_cart_products'] = json.dumps(float(get_total_amount))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url="log_in")
+def item_clear(request, id):
+    cart = Cart(request)
+    product = find_product_by_id(id)
+    cart.remove(product)
+    get_total_amount = cart.get_total_amount()
+    request.session['total_amount_in_cart_products'] = json.dumps(float(get_total_amount))
+    return redirect("cart_detail")
+
+
+@login_required(login_url="log_in")
+def item_increment(request, id):
+    cart = Cart(request)
+    product = find_product_by_id(id)
+    cart.add(product=product)
+    get_total_amount = cart.get_total_amount()
+    request.session['total_amount_in_cart_products'] = json.dumps(float(get_total_amount))
+    return redirect("cart_detail")
+
+
+@login_required(login_url="log_in")
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = find_product_by_id(id)
+    cart.substract(product=product)
+    get_total_amount = cart.get_total_amount()
+    request.session['total_amount_in_cart_products'] = json.dumps(float(get_total_amount))
+    return redirect("cart_detail")
+
+
+@login_required(login_url="log_in")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    get_total_amount = cart.get_total_amount()
+    request.session['total_amount_in_cart_products'] = json.dumps(float(get_total_amount))
+    return redirect("cart_detail")
+
+def sum_to_pay(request):
+    cart = Cart(request)
+    return len(cart)
+
+@login_required(login_url="log_in")
+def cart_detail(request):
+    if request.method == 'POST':
+        selected_lang = request.POST.get('selected_lang', '0')
+        request.session['lang'] = selected_lang
+
+    selected_lang = request.session.get('lang')
+    if not selected_lang:
+        selected_lang = 'geo'
+    cart = Cart(request)
+    # total_price = cart.total_price()
+
+    get_total_price = cart.get_total_price()
+    request.session['total_price_in_cart_products'] = json.dumps(float(get_total_price))
+
+    get_total_weight = cart.get_total_weight()
+    request.session['total_weight_in_cart_products'] = json.dumps(float(get_total_weight))
+
+    get_total_amount = cart.get_total_amount()
+    request.session['total_amount_in_cart_products'] = json.dumps(float(get_total_amount))
+
+    params = {'get_total_price': get_total_price, 'selected_lang': selected_lang}
+    return render(request, 'shop/cart.html', params)
+
+# from django.shortcuts import render, redirect, get_object_or_404
+# from django.contrib.auth.decorators import login_required
+# from shop.models import Product
+# from .cart import Cart
+# from .forms import CartAddProductForm
+#
+# @login_required(login_url="log_in")
+# def cart_add(request, product_id):
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id=product_id)
+#     form = CartAddProductForm(request.POST)
+#     if form.is_valid():
+#         cd = form.cleaned_data
+#         cart.add(product=product, quantity=cd['quantity'], update_quantity=cd['update'])
+#     return redirect('cart_detail')
+#
+# @login_required(login_url="log_in")
+# def cart_remove(request, product_id):
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id=product_id)
+#     cart.remove(product)
+#     return redirect('cart_detail')
+#
+# @login_required(login_url="log_in")
+# def cart_detail(request):
+#     cart = Cart(request)
+#     return render(request, 'shop/cart.html', {'cart': cart})
+#
+from django.contrib import admin
+
+# Register your models here.
+
+from django.apps import AppConfig
+
+
+class CartConfig(AppConfig):
+    name = 'cart'
+
+# from decimal import Decimal
+# from django.conf import settings
+# from shop.models import Product
+#
+# class Cart(object):
+#     def __init__(self, request):
+#         """
+#         Initialize the cart.
+#         """
+#         self.session = request.session
+#         cart = self.session.get(settings.CART_SESSION_ID)
+#         if not cart:
+#             # save an empty cart in the session
+#             cart = self.session[settings.CART_SESSION_ID] = {}
+#         self.cart = cart
+#
+#     def add(self, product, quantity=1, update_quantity=False):
+#         """
+#         Add a product to the cart or update its quantity.
+#         """
+#         product_id = str(product.product_id)
+#         if product_id not in self.cart:
+#             self.cart[product_id] = {'quantity': 0, 'name_geo': product.product_name_geo,'name_eng': product.product_name_eng,'name_rus': product.product_name_rus,
+#                                      'price': str(product.price)}
+#         if update_quantity:
+#             self.cart[product_id]['quantity'] = quantity
+#         else:
+#             self.cart[product_id]['quantity'] += quantity
+#         self.save()
+#
+#     def save(self):
+#
+#         # update the session cart
+#         self.session[settings.CART_SESSION_ID] = self.cart
+#         # mark the session as "modified" to make sure it is saved
+#         self.session.modified = True
+#
+#     def remove(self, product):
+#         """
+#         Remove a product from the cart.
+#         """
+#         product_id = str(product.product_id)
+#         if product_id in self.cart:
+#             del self.cart[product_id]
+#         self.save()
+#
+#     def __iter__(self):
+#         """
+#         Iterate over the items in the cart and get the products
+#         from the database.
+#         """
+#
+#         product_ids = self.cart.keys()
+#         # get the product objects and add them to the cart
+#         products = Product.objects.filter(id__in=product_ids)
+#         for product in products:
+#             self.cart[str(product.id)]['product'] = product
+#         for item in self.cart.values():
+#             item['price'] = Decimal(item['price'])
+#             item['total_price'] = item['price'] * item['quantity']
+#             yield item
+#
+#     def __len__(self):
+#         """
+#         Count all items in the cart.
+#         """
+#
+#         return sum(item['quantity'] for item in self.cart.values())
+#
+#     def get_total_price(self):
+#         return sum(Decimal(item['price']) * item['quantity'] for item in
+#                    self.cart.values())
+#
+#     def clear(self):
+#
+#         # remove cart from session
+#         del self.session[settings.CART_SESSION_ID]
+#         self.session.modified = True
+
+
+from decimal import Decimal
+from django.conf import settings
+from shop.models import Product
+import json
+from shop.views import get_products
+
+class Cart(object):
+    def __init__(self, request):
+        """
+        Initialize the cart.
+        """
+        self.session = request.session
+        cart = self.session.get(settings.CART_SESSION_ID)
+        if not cart:
+            # save an empty cart in the session
+            cart = self.session[settings.CART_SESSION_ID] = {}
+        self.cart = cart
+
+    def add(self, product, quantity=1, update_quantity=False):
+        """
+        Add a product to the cart or update its quantity.
+        """
+        id = str(product.id)
+        if id not in self.cart:
+            self.cart[id] = {'quantity': 0, 'name_geo': product.product_name_geo,
+                             'name_eng': product.product_name_eng, 'name_rus': product.product_name_rus,
+                             'image': '/media/'+str(product.image_low_quality),
+                             'price': str(product.price), 'limit': product.amount_in_warehouse, 'total_price': 0, 'weight':str(product.weight)}
+        if update_quantity:
+            self.cart[id]['quantity'] = quantity
+            self.cart[id]['total_price'] = str(self.cart[id]['quantity'] * Decimal(self.cart[id]['price']))
+        else:
+            if self.cart[id]['quantity'] < product.amount_in_warehouse:
+                self.cart[id]['quantity'] += quantity
+                self.cart[id]['total_price'] = str(self.cart[id]['quantity'] * Decimal(self.cart[id]['price']))
+        self.save()
+
+    def substract(self, product, quantity=1, update_quantity=False):
+        '''
+        substract a product to the cart or u    update its quantity.
+        '''
+        id = str(product.id)
+        if update_quantity:
+            self.cart[id]['quantity'] = quantity
+        else:
+            if id in self.cart:
+                if self.cart[id]['quantity'] == 1 or self.cart[id]['quantity'] < 1:
+                    self.remove(product)
+                else:
+                    self.cart[id]['quantity'] -= 1
+        self.save()
+
+    def save(self):
+        # update the session cart
+        self.session[settings.CART_SESSION_ID] = self.cart
+        # mark the session as "modified" to make sure it is saved
+        self.session.modified = True
+
+    def remove(self, product):
+        """
+        Remove a product from the cart.
+        """
+        id = str(product.id)
+        if id in self.cart:
+            del self.cart[id]
+            self.save()
+
+    # needs check
+    def __iter__(self):
+        """
+        Iterate over the items in the cart and get the products
+        from the database.
+        """
+        product_ids = self.cart.keys()
+        # get the product objects and add them to the cart
+        # products = Product.objects.filter(product_id__in=product_ids)
+        products = [i for i in Product.objects.all() if i.id in product_ids]
+        # products = [i for i in Product.objects.all() if i.product_id in product_ids]
+        for product in products:
+            self.cart[str(product.id)]['product'] = product
+
+        for item in self.cart.values():
+            item['price'] = Decimal(item['price'])
+            item['total_price'] = item['price'] * item['quantity']
+            yield item
+
+        '''
+        {1: {'quantity': 0, 'name_geo': 'product.product_name_geo', 'name_eng': 'product.product_name_eng',
+              'name_rus': 'product.product_name_rus', 'image': 'json.dumps(str(product.image_low_quality))',
+              'price': 'str(product.price)'}}
+        '''
+
+    def __len__(self):
+        """
+        Count all items in the cart.
+        """
+        return sum(item['quantity'] for item in self.cart.values())
+
+    # def total_price(self):
+    #     return (Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+    def get_total_price(self):
+        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+    def get_total_weight(self):
+        return sum(Decimal(item['weight']) * item['quantity'] for item in self.cart.values())
+
+    def get_total_amount(self):
+        return sum(item['quantity'] for item in self.cart.values())
+
+    def clear(self):
+        # remove cart from session
+        del self.session[settings.CART_SESSION_ID]
+        self.session.modified = True
