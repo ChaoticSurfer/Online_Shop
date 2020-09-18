@@ -139,7 +139,6 @@ pycodestyle==2.6.0
 pycparser==2.20
 PyDbLite==3.0.4
 pyee==7.0.2
-pygame==1.9.6
 Pygments==2.6.1
 PyInstaller==3.6
 pyjsparser==2.7.1
