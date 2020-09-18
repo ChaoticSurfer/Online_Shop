@@ -145,7 +145,6 @@ pyjsparser==2.7.1
 pylint==2.4.4
 pyOpenSSL==19.1.0
 pyparsing==2.4.6
-pypiwin32==223
 pyppeteer==0.2.2
 PyPrind==2.11.2
 pyquery==1.4.1
