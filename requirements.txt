@@ -70,7 +70,7 @@ Flask-Security==3.0.0
 Flask-SQLAlchemy==2.4.1
 Flask-WTF==0.14.3
 future==0.18.2
-get==2019.4.13
+get
 gevent==20.5.0
 gevent-websocket==0.10.1
 googletrans==2.4.0
@@ -130,7 +130,7 @@ pickleshare==0.7.5
 Pillow==7.1.2
 pipenv==2018.11.26
 pipwin==0.4.9
-post==2019.4.13
+post
 prometheus-client==0.7.1
 prompt-toolkit==3.0.5
 psycopg2==2.8.5
@@ -166,7 +166,7 @@ pyzmq==19.0.0
 qtconsole==4.7.2
 QtPy==1.9.0
 query-string==2019.4.13
-request==2019.4.13
+request
 requests==2.21.0
 requests-html==0.10.0
 requests-oauthlib==1.2.0
