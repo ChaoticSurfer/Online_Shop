@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="" method="post">{% csrf_token %}
+    {{ form.email.label }} {{ form.email }}    {% if form.email.help_text %}
+        <small style="color: grey"> {{ form.email.help_text }}</small>    {% endif %}
+    {% if form.email.errors %}
+        <small style="color: red"> {{ form.email.errors }}</small>   {% endif %}
+
+    {{ form.password.label }} {{ form.password }}    {% if form.password.help_text %}
+        <small style="color: grey"> {{ form.password.help_text }}</small>   {% endif %}
+    {% if form.password.errors %}
+        <small style="color: red"> {{ form.password.errors }}</small>   {% endif %}
+
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+
+    <input type="submit" name="log in">
+</form>
+<script>
+var form_fields = document.getElementsByTagName('input')
+form_fields[0].placeholder='Email..';
+form_fields[1].placeholder='Enter password...';
+</script>
+
+
+</body>
+</html>

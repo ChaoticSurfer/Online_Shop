@@ -1,0 +1,74 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'style_for_authentication.css' %}">
+{% endblock %}
+
+
+{% block html_elements %}
+<div class="log-in">
+    <div class="form_wrapper">
+        <div class="form_container">
+            <div class="title_container">
+                <h2 lang="geo">შესვლა</h2>
+            </div>
+{#            <div class="row clearfix">#}
+                <div class="">
+                    <form action="" method="post">{% csrf_token %}
+
+                        <div class="input_field"><span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                            <input type="email" lang="geo" name="email" placeholder="ელ. ფოსტა" required/>
+                        </div>
+{#                    {% if form.email.errors %}#}
+{#                            <small style="color: red"> {{ form.email.errors }}</small>   {% endif %}#}
+
+                        <div class="input_field"><span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                            <input type="password" lang="geo" name="password" placeholder="პაროლი" id="password1" required/>
+                            {% for message in messages %}
+
+                            <small style="color: red" lang="geo">ელ. ფოსტა ან პაროლი არასწორია</small>
+
+                                {% endfor %}
+                        </div>
+{#                    {% if form.password.errors %}#}
+{#                            <small style="color: red"> {{ form.password.errors }}</small>   {% endif %}#}
+
+{#                        {% if form.password.errors %}#}
+{#                <small style="color: red">მეილი ან პაროლი არასწორია</small>   {% endif %}#}
+                    <input class="button" lang="geo" type="submit"  value="შესვლა"/>
+                    </form>
+
+                </div>
+        <hr class="hr-text" lang="geo" data-content="ან">
+{#            </div>#}
+            <div class="title_container">
+                <a href="{% url 'register' %}" class="jump">
+                    <h4 lang="geo">რეგისტრაცია</h4>
+                </a>
+            </div>
+{#            <hr class="hr-text" data-content="ან">#}
+{#            <div class="title_container">#}
+{#                <div class="row omb_row-sm-offset-3 omb_socialButtons">#}
+{#                    <a href="#">#}
+{#                        <button class="fb-button"><i class="fa fa-facebook fa-2x"></i>Facebook</button>#}
+{#                    </a>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="title_container">#}
+{#                <a href="#" class="forgot-password">#}
+{#                    <p>დაგავიწყდა პაროლი?</p>#}
+{#                </a>#}
+{#            </div>#}
+        </div>
+    </div>
+</div>
+
+
+
+<script src="{% static 'JS_for_authentication.js' %}"></script>
+
+
+{% endblock %}

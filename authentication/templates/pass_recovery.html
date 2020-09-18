@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodePen - Responsive Registration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'style_for_authentication.css' %}">
+
+</head>
+<body>
+
+<div class="log-in">
+    <div class="form_wrapper">
+        <div class="form_container">
+            <div class="title_container">
+                <h2>Password recovery</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="">
+                    <form>
+                        <div class="input_field"><span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                            <input type="email" name="email" placeholder="Email" required/>
+                        </div>
+                        <input class="button" type="submit" value="Submit"/>
+                    </form>
+                </div>
+            </div>
+            <div class="title_container">
+                <a href="#" class="jump">
+                    <h4>Go back</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'JS_for_authentication.js' %}"></script>
+
+</body>
+</html>

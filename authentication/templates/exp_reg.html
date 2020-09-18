@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>experiment</title>
+</head>
+<body>
+<h1>Registration</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {#            {{ form.as_p }}#}
+    {{ form.email.label }} {{ form.email }}    {% if form.email.help_text %}
+    <small style="color: grey"> {{ form.email.help_text }}</small>    {% endif %}
+    {% if form.email.errors %}
+        <small style="color: red"> {{ form.email.errors }}</small>   {% endif %}
+
+
+    {{ form.password1.label }} {{ form.password1 }}    {% if form.password1.help_text %}
+    <small style="color: grey"> {{ form.password1.help_text }}</small>   {% endif %}
+    {% if form.password1.errors %}
+        <small style="color: red"> {{ form.password1.errors }}</small>   {% endif %}
+
+
+    {{ form.password2.label }} {{ form.password2 }}    {% if form.password2.help_text %}
+    <small style="color: grey"> {{ form.password2.help_text }}</small>    {% endif %}
+    {% if form.password2.errors %}
+        <small style="color: red"> {{ form.password2.errors }}</small>   {% endif %}
+
+
+    {{ form.first_name.label }} {{ form.first_name }}    {% if form.first_name.help_text %}
+    <small style="color: grey"> {{ form.first_name.help_text }}</small>    {% endif %}
+    {% if form.first_name.errors %}
+        <small style="color: red"> {{ form.first_name.errors }}</small>   {% endif %}
+
+
+    {{ form.last_name.label }} {{ form.last_name }}    {% if form.last_name.help_text %}
+    <small style="color: grey"> {{ form.last_name.help_text }}</small>    {% endif %}
+    {% if form.last_name.errors %}
+        <small style="color: red"> {{ form.last_name.errors }}</small>   {% endif %}
+
+    {{ form.phone_number.label }} {{ form.phone_number }}    {% if form.phone_number.help_text %}
+    <small style="color: grey"> {{ form.phone_number.help_text }}</small>    {% endif %}
+    {% if form.phone_number.errors %}
+        <small style="color: red"> {{ form.phone_number.errors }}</small>   {% endif %}
+
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+
+    <input type="submit" name="create user">
+</form>
+
+<script>
+    let input = document.getElementById('id_email');
+    input.setAttribute('placeholder', 'Email..')
+
+    input = document.getElementById('id_password1');
+    input.setAttribute('placeholder', 'Enter password.....')
+
+    input = document.getElementById('id_password2');
+    input.setAttribute('placeholder', 'Re-enter Password...')
+
+    input = document.getElementById('id_first_name');
+    input.setAttribute('placeholder', 'Firstname..')
+
+    input = document.getElementById('id_last_name');
+    input.setAttribute('placeholder', 'last name..')
+
+    input = document.getElementById('id_phone_number');
+    input.setAttribute('placeholder', 'Phone number..')
+</script>
+
+
+</body>
+</html>
+

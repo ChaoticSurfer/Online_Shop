@@ -1,0 +1,127 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{#    <title>Registration Form</title>#}
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'style_for_authentication.css' %}">
+{% endblock %}
+
+
+{% block html_elements %}
+    <div class="sign-up">
+        <!-- partial:index.partial.html -->
+        <div class="form_wrapper">
+            <div class="form_container">
+                <div class="title_container">
+                    <h2 lang="geo">რეგისტრაცია</h2>
+                </div>
+                <div class="row clearfix">
+                    <div class="">
+                        <form action="" method="post">{% csrf_token %}
+
+
+{#                            {% if form.email.help_text %}#}
+{#                                <small style="color: grey"> {{ form.email.help_text }}</small>    {% endif %}#}
+                            <div class="input_field"><span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                                <input type="email" lang="geo" name="email" placeholder="ელ. ფოსტა" required/>
+                                {% for message in messages %}
+                                <small style="color: red" lang="geo">ელ. ფოსტა გამოყენებულია</small>   {% endfor %}
+                            </div>
+
+                            {#              --          #}
+                            <div class="input_field"><span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                                <input type="password" lang="geo" name="password1" placeholder="პაროლი" id="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required/>
+                            {% if form.password1.help_text %}
+                                <small style="color: red" lang="geo">არანაკლებ 8 სიმბოლო, 1 ციფრი, 1 ასო და მხოლოდ ლათინური ასოები</small>   {% endif %}
+                            </div>
+{#                            {% if form.password1.help_text %}#}
+{#                                <small style="color: grey"> {{ form.password1.help_text }}</small>   {% endif %}#}
+{#                            {% if form.password1.errors %}#}
+{#                                <small style="color: red"> {{ form.password1.errors }}</small>   {% endif %}#}
+
+
+                            <div>
+                                <div class="input_field"><span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                                    <input type="password" lang="geo" name="password2" placeholder="გაიმეორეთ პაროლი"
+                                           oninput="check(this)" id="password_confirm" required/>
+                                </div>
+{#                                {% if form.password2.help_text %}#}
+{#                                    <small style="color: grey"> {{ form.password2.help_text }}</small>    {% endif %}#}
+{#                                {% if form.password2.errors %}#}
+{#                                    <small style="color: red"> {{ form.password2.errors }}</small>   {% endif %}#}
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col_half">
+                                    <div class="input_field"><span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" lang="geo" name="first_name" placeholder="სახელი" required/>
+                                    </div>
+                                </div>
+{#                                {% if form.first_name.help_text %}#}
+{#                                    <small style="color: grey"> {{ form.first_name.help_text }}</small>    {% endif %}#}
+{#                                {% if form.first_name.errors %}#}
+{#                                    <small style="color: red"> {{ form.first_name.errors }}</small>   {% endif %}#}
+                                <div class="col_half">
+                                    <div class="input_field"><span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" lang="geo" name="last_name" placeholder="გვარი" required/>
+                                    </div>
+                                </div>
+{#                                {% if form.last_name.help_text %}#}
+{#                                    <small style="color: grey"> {{ form.last_name.help_text }}</small>    {% endif %}#}
+{#                                {% if form.last_name.errors %}#}
+{#                                    <small style="color: red"> {{ form.last_name.errors }}</small>   {% endif %}#}
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col_4">
+                                    <div class="input_field">
+                                        <select class="custom-select" style="height: 35px">
+                                            <option selected="">+995</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col_8">
+                                    <div class="input_field"><span><i class="fa fa-phone"></i></span>
+                                        <input id="tel1" lang="geo" name="phone_number" pattern="[0-9]{9}"
+                                               placeholder="ტელ:"
+                                               type="tel" required/>
+                                    </div>
+{#                                    {% if form.phone_number.help_text %}#}
+{#                                        <small style="color: grey"> {{ form.phone_number.help_text }}</small>    {% endif %}#}
+{#                                    {% if form.phone_number.errors %}#}
+{#                                        <small style="color: red"> {{ form.phone_number.errors }}</small>   {% endif %}#}
+                                </div>
+                            </div>
+                            <div class="input_field checkbox_option">
+                                <input type="checkbox" id="cb" required> <label for="cb"><a href="#" class="terms" lang="geo">ვეთანხმები წესებსა და პირობებს</a></label>
+                            </div>
+                            <div>
+{#                                {% for message in messages %}#}
+{#                                    {{ message }}#}
+{#                                {% endfor %}#}
+                            </div>
+                            <input class="button" lang="geo" type="submit" value="რეგისტრაცია" name="create user"/>
+                        </form>
+                    </div>
+                </div>
+                {#anris danamati#}
+                <hr class="hr-text" lang="geo" data-content="ან">
+
+                <div class="title_container">
+                    <a href="{% url 'log_in' %}" class="jump">
+                        <h4 lang="geo">შესვლა</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+
+<br>
+    <br>
+
+    <script src="{% static 'JS_for_authentication.js' %}"></script>
+{% endblock %}
